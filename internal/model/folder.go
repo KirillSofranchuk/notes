@@ -2,6 +2,8 @@ package model
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 	"time"
 )
 
@@ -24,6 +26,26 @@ func NewFolder(title string, userId int) (*Folder, error) {
 		Timestamp: time.Now(),
 		UserId:    userId,
 	}, nil
+}
+
+func (f Folder) GetInfo() string {
+	notesInfo := "No notes"
+
+	notes := f.GetNotes()
+
+	if len(*notes) > 0 {
+		var notesList strings.Builder
+		for _, note := range *notes {
+			notesList.WriteString(note.GetInfo())
+		}
+		notesInfo = fmt.Sprintf(notesList.String())
+	}
+
+	return fmt.Sprintf("Id: %d \n"+
+		"Title: %s \n"+
+		"TimeStamp: %s \n"+
+		"UserId: %d \n"+
+		"Notes: %s", f.Id, f.Title, f.Timestamp.Format(time.RFC1123), f.UserId, notesInfo)
 }
 
 func (f *Folder) GetNotes() *[]Note {

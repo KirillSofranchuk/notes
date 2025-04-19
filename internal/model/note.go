@@ -39,6 +39,16 @@ func NewNote(title string, content string, userId int, tags []string) (*Note, er
 	}, nil
 }
 
+func (n Note) GetInfo() string {
+	return fmt.Sprintf("Id: %d \n"+
+		"Title: %s \n"+
+		"Content: %s \n"+
+		"UserId: %d \n"+
+		"IsFavorite: %v \n"+
+		"TimeStamp: %s \n"+
+		"Tags: %v", n.Id, n.Title, n.Content, n.UserId, n.IsFavorite, n.Timestamp.Format(time.RFC1123), n.Tags)
+}
+
 func validateNote(title string, content string, tags []string) error {
 	titleValidationError := validateTitle(title)
 	if titleValidationError != nil {

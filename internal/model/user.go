@@ -3,6 +3,7 @@ package model
 import (
 	"errors"
 	"fmt"
+	"golang.org/x/crypto/bcrypt"
 	"unicode"
 )
 
@@ -23,13 +24,26 @@ func NewUser(name string, surname string, login string, password string) (*User,
 		return nil, validationError
 	}
 
+	hashedPassword, err := hashPassword(password)
+	if err != nil {
+		return nil, err
+	}
+
 	return &User{
 		Id:       0,
 		Name:     name,
 		Surname:  surname,
 		Login:    login,
-		Password: password,
+		Password: hashedPassword,
 	}, nil
+}
+
+func (u User) GetInfo() string {
+	return fmt.Sprintf("Id: %d \n"+
+		"Name: %s \n"+
+		"Surname: %s \n"+
+		"Login: %s \n"+
+		"Password: %s", u.Id, u.Name, u.Surname, u.Login, u.Password)
 }
 
 func validateUser(name string, surname string, login string, password string) error {
@@ -118,4 +132,12 @@ func validatePassword(password string) error {
 	}
 
 	return nil
+}
+
+func hashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", fmt.Errorf("failed to hash password: %w", err)
+	}
+	return string(hashedPassword), nil
 }
