@@ -12,7 +12,7 @@ type Folder struct {
 	Title     string
 	Timestamp time.Time
 	UserId    int
-	notes     *[]Note
+	notes     []*Note
 }
 
 func NewFolder(title string, userId int) (*Folder, error) {
@@ -33,9 +33,9 @@ func (f Folder) GetInfo() string {
 
 	notes := f.GetNotes()
 
-	if len(*notes) > 0 {
+	if len(notes) > 0 {
 		var notesList strings.Builder
-		for _, note := range *notes {
+		for _, note := range notes {
 			notesList.WriteString(note.GetInfo())
 		}
 		notesInfo = fmt.Sprintf(notesList.String())
@@ -48,9 +48,9 @@ func (f Folder) GetInfo() string {
 		"Notes: %s", f.Id, f.Title, f.Timestamp.Format(time.RFC1123), f.UserId, notesInfo)
 }
 
-func (f *Folder) GetNotes() *[]Note {
+func (f *Folder) GetNotes() []*Note {
 	if f.notes == nil {
-		return &[]Note{}
+		return []*Note{}
 	}
 
 	return f.notes
@@ -58,9 +58,9 @@ func (f *Folder) GetNotes() *[]Note {
 
 func (f *Folder) AppendNote(note Note) {
 	if f.notes == nil {
-		f.notes = &[]Note{note}
+		f.notes = []*Note{&note}
 		return
 	}
 
-	*f.notes = append(*f.notes, note)
+	f.notes = append(f.notes, &note)
 }
