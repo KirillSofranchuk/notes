@@ -7,6 +7,6 @@ import (
 
 func main() {
 	repo := repository.NewSliceRepository()
-	businessEntityService := service.NewBusinessEntitySliceService(repo)
+	businessEntityService := service.NewBusinessEntityService(repo)
 	businessEntityService.GenerateAndSoreEntities(22)
 }

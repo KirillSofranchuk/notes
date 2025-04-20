@@ -10,17 +10,17 @@ import (
 const entitiesCount = 3
 const milliSecondsToSleep = 400
 
-type BusinessEntitySliceService struct {
+type BusinessEntityService struct {
 	repository repository.AbstractRepository
 }
 
-func NewBusinessEntitySliceService(repo repository.AbstractRepository) *BusinessEntitySliceService {
-	return &BusinessEntitySliceService{
+func NewBusinessEntityService(repo repository.AbstractRepository) *BusinessEntityService {
+	return &BusinessEntityService{
 		repository: repo,
 	}
 }
 
-func (s *BusinessEntitySliceService) GenerateAndSoreEntities(iterations int) {
+func (s *BusinessEntityService) GenerateAndSoreEntities(iterations int) {
 	for i := 0; i < iterations; i++ {
 		entity := s.generateRandomEntity()
 		s.repository.SaveEntity(entity)
@@ -28,7 +28,7 @@ func (s *BusinessEntitySliceService) GenerateAndSoreEntities(iterations int) {
 	}
 }
 
-func (s *BusinessEntitySliceService) generateRandomEntity() model.BusinessEntity {
+func (s *BusinessEntityService) generateRandomEntity() model.BusinessEntity {
 	switch rand.Intn(entitiesCount) {
 	case 0:
 		newUser, _ := model.NewUser("Name", "Surname", "Login4321", "Password1234$")
