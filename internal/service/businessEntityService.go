@@ -8,7 +8,7 @@ import (
 )
 
 const entitiesCount = 3
-const milliSecondsToSleep = 400
+const milliSecondsToSleep = 200
 
 type BusinessEntityService struct {
 	repository repository.AbstractRepository
@@ -20,12 +20,33 @@ func NewBusinessEntityService(repo repository.AbstractRepository) *BusinessEntit
 	}
 }
 
-func (s *BusinessEntityService) GenerateAndSoreEntities(iterations int) {
-	for i := 0; i < iterations; i++ {
-		entity := s.generateRandomEntity()
-		s.repository.SaveEntity(entity)
-		time.Sleep(milliSecondsToSleep * time.Millisecond)
-	}
+func (s *BusinessEntityService) GenerateEntitiesAsync(ch chan<- model.BusinessEntity, stop <-chan struct{}) {
+	go func() {
+		ticker := time.NewTicker(milliSecondsToSleep * time.Millisecond)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-ticker.C:
+				ch <- s.generateRandomEntity()
+			case <-stop:
+				return
+			}
+		}
+	}()
+}
+
+func (s *BusinessEntityService) SaveEntitiesAsync(ch <-chan model.BusinessEntity, stop <-chan struct{}) {
+	go func() {
+		for {
+			select {
+			case entity := <-ch:
+				s.repository.SaveEntity(entity)
+			case <-stop:
+				return
+			}
+		}
+	}()
 }
 
 func (s *BusinessEntityService) generateRandomEntity() model.BusinessEntity {
