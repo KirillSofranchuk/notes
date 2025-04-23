@@ -7,5 +7,7 @@ type AbstractRepository interface {
 	GetUsers() []*model.User
 	GetNotes() []*model.Note
 	GetFolders() []*model.Folder
-	LoadStoredData()
+	GetUsersCount() int
+	GetNotesCount() int
+	GetFoldersCount() int
 }

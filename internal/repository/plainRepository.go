@@ -2,10 +2,7 @@ package repository
 
 import (
 	"Notes/internal/model"
-	"bufio"
-	"encoding/json"
 	"fmt"
-	"os"
 	"sync"
 )
 
@@ -17,125 +14,74 @@ const (
 )
 
 type PlainRepository struct {
-	users     []*model.User
-	muUsers   sync.RWMutex
-	notes     []*model.Note
-	muNotes   sync.RWMutex
-	folders   []*model.Folder
-	muFolders sync.RWMutex
+	users   *model.BusinessEntityStorage[*model.User]
+	notes   *model.BusinessEntityStorage[*model.Note]
+	folders *model.BusinessEntityStorage[*model.Folder]
 }
 
 func NewPlainRepository() AbstractRepository {
-	return &PlainRepository{
-		users:   make([]*model.User, 0),
-		notes:   make([]*model.Note, 0),
-		folders: make([]*model.Folder, 0),
+	repo := &PlainRepository{
+		users:   model.NewBusinessEntityStorage[*model.User](usersFile),
+		notes:   model.NewBusinessEntityStorage[*model.Note](notesFile),
+		folders: model.NewBusinessEntityStorage[*model.Folder](foldersFile),
 	}
-}
 
-func (s *PlainRepository) LoadStoredData() {
-	// Загружаем параллельно, так как файлы не зависят друг от друга
 	var wg sync.WaitGroup
 	wg.Add(3)
 
 	go func() {
 		defer wg.Done()
-		loadData(usersFile, &s.users)
+		repo.users.Load()
 	}()
 
 	go func() {
 		defer wg.Done()
-		loadData(foldersFile, &s.folders)
+		repo.folders.Load()
 	}()
 
 	go func() {
 		defer wg.Done()
-		loadData(notesFile, &s.notes)
+		repo.notes.Load()
 	}()
 
 	wg.Wait()
 
 	fmt.Println("Data loaded")
+
+	return repo
 }
 
 func (s *PlainRepository) SaveEntity(entity model.BusinessEntity) {
 	switch e := entity.(type) {
 	case *model.User:
-		s.muUsers.Lock()
-		s.users = append(s.users, e)
-		appendToFile(usersFile, e)
-		s.muUsers.Unlock()
+		s.users.Save(e)
 	case *model.Note:
-		s.muNotes.Lock()
-		s.notes = append(s.notes, e)
-		appendToFile(notesFile, e)
-		s.muNotes.Unlock()
+		s.notes.Save(e)
 	case *model.Folder:
-		s.muFolders.Lock()
-		s.folders = append(s.folders, e)
-		appendToFile(foldersFile, e)
-		s.muFolders.Unlock()
+		s.folders.Save(e)
 	}
 }
 
 func (s *PlainRepository) GetUsers() []*model.User {
-	s.muUsers.RLock()
-	defer s.muUsers.RUnlock()
-	return s.users
+	return s.users.GetAll()
 }
 
 func (s *PlainRepository) GetNotes() []*model.Note {
-	s.muNotes.RLock()
-	defer s.muNotes.RUnlock()
-	return s.notes
+	return s.notes.GetAll()
 }
 
 func (s *PlainRepository) GetFolders() []*model.Folder {
-	s.muFolders.RLock()
-	defer s.muFolders.RUnlock()
-	return s.folders
+	return s.folders.GetAll()
 }
 
-func loadData[T model.BusinessEntity](filename string, receiver *[]T) {
-	storedData := readEntities[T](filename)
-
-	fmt.Printf("Loaded %d entities from %s \n", len(storedData), filename)
-
-	*receiver = append(*receiver, storedData...)
+func (s *PlainRepository) GetUsersCount() int {
+	return s.users.GetCount()
 }
 
-func readEntities[T model.BusinessEntity](filename string) []T {
-	entities := make([]T, 0)
-
-	file, err := os.Open(filename)
-	if err != nil {
-		return entities
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		var entity T
-		if err := json.Unmarshal(scanner.Bytes(), &entity); err != nil {
-			fmt.Println()
-		}
-		entities = append(entities, entity)
-	}
-
-	return entities
+func (s *PlainRepository) GetFoldersCount() int {
+	return s.folders.GetCount()
 }
 
-func appendToFile[T model.BusinessEntity](filename string, item T) {
-	// Не используем mutex так как чтение из файла только при старте программы,
-	//а пишется за раз сущность только одного типа
-	file, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, filePermission)
-	if err != nil {
-		return
-	}
-	defer file.Close()
-
-	line, _ := json.Marshal(item)
-
-	_, _ = file.WriteString(string(line) + "\n")
-	return
+func (s *PlainRepository) GetNotesCount() int {
+	return s.notes.GetCount()
 }

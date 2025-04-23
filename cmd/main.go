@@ -16,8 +16,8 @@ func main() {
 	entitiesChan := make(chan model.BusinessEntity)
 
 	repo := repository.NewPlainRepository()
-	repo.LoadStoredData()
 	businessService := service.NewBusinessEntityService(repo)
+	logger.InitLogger(repo)
 
 	businessService.GenerateEntitiesAsync(entitiesChan, stop)
 	businessService.SaveEntitiesAsync(entitiesChan, stop)
