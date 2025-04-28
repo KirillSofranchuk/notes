@@ -15,8 +15,9 @@ func main() {
 	stop := make(chan struct{})
 	entitiesChan := make(chan model.BusinessEntity)
 
-	repo := repository.NewSliceRepository()
+	repo := repository.NewPlainRepository()
 	businessService := service.NewBusinessEntityService(repo)
+	logger.InitLogger(repo)
 
 	businessService.GenerateEntitiesAsync(entitiesChan, stop)
 	businessService.SaveEntitiesAsync(entitiesChan, stop)

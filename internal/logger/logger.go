@@ -8,12 +8,18 @@ import (
 
 const milliSecondsToSleep = 200
 
+var previousUsersCount = 0
+var previousNotesCount = 0
+var previousFoldersCount = 0
+
+func InitLogger(repo repository.AbstractRepository) {
+	previousNotesCount = repo.GetNotesCount()
+	previousFoldersCount = repo.GetFoldersCount()
+	previousUsersCount = repo.GetUsersCount()
+}
+
 func LogEntitiesAsync(repo repository.AbstractRepository, stop <-chan struct{}) {
 	go func() {
-		previousUsersCount := 0
-		previousNotesCount := 0
-		previousFoldersCount := 0
-
 		ticker := time.NewTicker(milliSecondsToSleep * time.Millisecond)
 		defer ticker.Stop()
 
