@@ -1,9 +1,7 @@
 package model
 
 import (
-	"errors"
 	"fmt"
-	"golang.org/x/crypto/bcrypt"
 	"unicode"
 )
 
@@ -18,15 +16,10 @@ type User struct {
 	Password string
 }
 
-func NewUser(name string, surname string, login string, password string) (*User, error) {
+func NewUser(name string, surname string, login string, password string) (*User, *ApplicationError) {
 	validationError := validateUser(name, surname, login, password)
 	if validationError != nil {
 		return nil, validationError
-	}
-
-	hashedPassword, err := hashPassword(password)
-	if err != nil {
-		return nil, err
 	}
 
 	return &User{
@@ -34,11 +27,11 @@ func NewUser(name string, surname string, login string, password string) (*User,
 		Name:     name,
 		Surname:  surname,
 		Login:    login,
-		Password: hashedPassword,
+		Password: password,
 	}, nil
 }
 
-func (u User) GetInfo() string {
+func (u *User) GetInfo() string {
 	return fmt.Sprintf("Id: %d \n"+
 		"Name: %s \n"+
 		"Surname: %s \n"+
@@ -46,7 +39,15 @@ func (u User) GetInfo() string {
 		"Password: %s", u.Id, u.Name, u.Surname, u.Login, u.Password)
 }
 
-func validateUser(name string, surname string, login string, password string) error {
+func (u *User) SetId(id int) {
+	u.Id = id
+}
+
+func (u *User) GetId() int {
+	return u.Id
+}
+
+func validateUser(name string, surname string, login string, password string) *ApplicationError {
 	personalDataValidationError := validatePersonalData(name, surname)
 	if personalDataValidationError != nil {
 		return personalDataValidationError
@@ -61,19 +62,19 @@ func validateUser(name string, surname string, login string, password string) er
 	return nil
 }
 
-func validatePersonalData(name string, surname string) error {
+func validatePersonalData(name string, surname string) *ApplicationError {
 	if len(name) == 0 {
-		return errors.New("name cannot be empty")
+		return NewApplicationError(ErrorTypeValidation, "Имя не может быть пустым", nil)
 	}
 
 	if len(surname) == 0 {
-		return errors.New("surname cannot be empty")
+		return NewApplicationError(ErrorTypeValidation, "Фамилия не может быть пустой", nil)
 	}
 
 	return nil
 }
 
-func validateCredentials(login string, password string) error {
+func validateCredentials(login string, password string) *ApplicationError {
 	loginValidation := validateLogin(login)
 	if loginValidation != nil {
 		return loginValidation
@@ -87,17 +88,19 @@ func validateCredentials(login string, password string) error {
 	return nil
 }
 
-func validateLogin(login string) error {
+func validateLogin(login string) *ApplicationError {
 	if len(login) < minLoginLength {
-		return errors.New(fmt.Sprintf("Login is too short. Please create login with at least %d symbols length", minLoginLength))
+		message := fmt.Sprintf("Логин слишком короткий. Пожалуйста, создайте логин длинной не меньше %d символов", minLoginLength)
+		return NewApplicationError(ErrorTypeValidation, message, nil)
 	}
 
 	return nil
 }
 
-func validatePassword(password string) error {
+func validatePassword(password string) *ApplicationError {
 	if len(password) < minPasswordLength {
-		return errors.New(fmt.Sprintf("password is too short. Please create password with at least %d symbols length", minPasswordLength))
+		message := fmt.Sprintf("Пароль слишком короткий. Пожалуйста, создайте пароль длиной не менее %d символов", minPasswordLength)
+		return NewApplicationError(ErrorTypeValidation, message, nil)
 	}
 
 	hasUpper := false
@@ -119,25 +122,17 @@ func validatePassword(password string) error {
 	}
 
 	if !hasUpper {
-		return errors.New("password must contain at least one uppercase letter")
+		return NewApplicationError(ErrorTypeValidation, "Пароль должен содержать букву верхнего регистра.", nil)
 	}
 	if !hasLower {
-		return errors.New("password must contain at least one lowercase letter")
+		return NewApplicationError(ErrorTypeValidation, "Пароль должен содержать букву нижнего регистра.", nil)
 	}
 	if !hasNumber {
-		return errors.New("password must contain at least one number")
+		return NewApplicationError(ErrorTypeValidation, "Пароль должен содержать число.", nil)
 	}
 	if !hasSpecial {
-		return errors.New("password must contain at least one special character")
+		return NewApplicationError(ErrorTypeValidation, "Пароль должен содержать спецсимволы.", nil)
 	}
 
 	return nil
-}
-
-func hashPassword(password string) (string, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return "", fmt.Errorf("failed to hash password: %w", err)
-	}
-	return string(hashedPassword), nil
 }
