@@ -10,7 +10,7 @@ type Folder struct {
 	Id        int
 	Title     string
 	Timestamp time.Time
-	UserId    int
+	UserId    int `json:"-"`
 	Notes     []Note
 }
 

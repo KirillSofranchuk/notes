@@ -3,6 +3,7 @@ package handler
 import (
 	"Notes/internal/model"
 	"Notes/internal/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -28,19 +29,16 @@ type FolderReq struct {
 // @Produce json
 // @Security BearerAuth
 // @Param input body FolderReq true "Folder creation data"
-// @Success 200 {object} map[string]interface{} "Returns ID of created folder"
-// @Failure 400 {object} map[string]interface{} "Invalid request data"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} int "Returns ID of created folder"
+// @Failure 400 {object} response
+// @Failure 401 {object} response
+// @Failure 500 {object} response
 // @Router /api/folder [post]
 func (f *FolderHandler) CreateFolder(c *gin.Context) {
 	var req FolderReq
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid request",
-			"details": err.Error(),
-		})
+		errorResponse(c, http.StatusBadRequest, fmt.Sprintf("Invalid request: %s", err.Error()))
 		return
 	}
 
@@ -50,9 +48,7 @@ func (f *FolderHandler) CreateFolder(c *gin.Context) {
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 
@@ -71,19 +67,16 @@ func (f *FolderHandler) CreateFolder(c *gin.Context) {
 // @Param id path int true "Folder ID"
 // @Param input body FolderReq true "Folder update data"
 // @Success 200 "Folder updated successfully"
-// @Failure 400 {object} map[string]interface{} "Invalid request data or ID"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 404 {object} map[string]interface{} "Folder not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} response "Invalid request data or ID"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 404 {object} response "Folder not found"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/folder/{id} [put]
 func (f *FolderHandler) UpdateFolder(c *gin.Context) {
 	var req FolderReq
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid request",
-			"details": err.Error(),
-		})
+		errorResponse(c, http.StatusBadRequest, fmt.Sprintf("Invalid request: %s", err.Error()))
 		return
 	}
 
@@ -93,7 +86,7 @@ func (f *FolderHandler) UpdateFolder(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		errorResponse(c, http.StatusBadRequest, "Invalid ID")
 		return
 	}
 
@@ -101,9 +94,7 @@ func (f *FolderHandler) UpdateFolder(c *gin.Context) {
 
 	if errUpdate != nil {
 		apiError := model.GetAppropriateApiError(errUpdate)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 
@@ -118,10 +109,10 @@ func (f *FolderHandler) UpdateFolder(c *gin.Context) {
 // @Security BearerAuth
 // @Param id path int true "Folder ID"
 // @Success 200 "Folder deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Invalid ID"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 404 {object} map[string]interface{} "Folder not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} response "Invalid ID"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 404 {object} response "Folder not found"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/folder/{id} [delete]
 func (f *FolderHandler) DeleteFolder(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
@@ -130,7 +121,7 @@ func (f *FolderHandler) DeleteFolder(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		errorResponse(c, http.StatusBadRequest, "Invalid ID")
 		return
 	}
 
@@ -138,9 +129,7 @@ func (f *FolderHandler) DeleteFolder(c *gin.Context) {
 
 	if errDelete != nil {
 		apiError := model.GetAppropriateApiError(errDelete)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 

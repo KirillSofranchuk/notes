@@ -3,6 +3,7 @@ package handler
 import (
 	"Notes/internal/model"
 	"Notes/internal/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -29,19 +30,16 @@ func NewAuthHandler(service service.AbstractAuthService) *AuthHandler {
 // @Accept json
 // @Produce json
 // @Param input body AuthReq true "User credentials"
-// @Success 200 {object} map[string]interface{} "Returns JWT token"
-// @Failure 400 {object} map[string]interface{} "Invalid request data"
-// @Failure 401 {object} map[string]interface{} "Invalid credentials"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} string "Returns JWT token"
+// @Failure 400 {object} response
+// @Failure 401 {object} response
+// @Failure 500 {object} response
 // @Router /api/auth/login [post]
 func (a *AuthHandler) Login(c *gin.Context) {
 	var req AuthReq
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid request",
-			"details": err.Error(),
-		})
+		errorResponse(c, http.StatusBadRequest, fmt.Sprintf("Invalid request: %s", err.Error()))
 		return
 	}
 
@@ -49,9 +47,7 @@ func (a *AuthHandler) Login(c *gin.Context) {
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 

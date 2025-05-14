@@ -20,9 +20,8 @@ func NewNotebookHandler(s service.AbstractNotebookService) NotebookHandler {
 // @Tags notebooks
 // @Produce json
 // @Security BearerAuth
-// @Success 200 {object} map[string]interface{} "Returns user's notebook data"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} model.Notebook "Returns user's notebook data"
+// @Failure 401 {object} response "Unauthorized"
 // @Router /api/notebook [get]
 func (n *NotebookHandler) GetNotebook(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)

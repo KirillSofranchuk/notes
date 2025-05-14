@@ -3,6 +3,7 @@ package handler
 import (
 	"Notes/internal/model"
 	"Notes/internal/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -40,19 +41,16 @@ func NewUserHandler(s service.AbstractUserService) *UserHandler {
 // @Accept json
 // @Produce json
 // @Param input body UserReq true "User registration data"
-// @Success 201 {object} map[string]interface{} "User created successfully"
-// @Failure 400 {object} map[string]interface{} "Invalid request data"
-// @Failure 409 {object} map[string]interface{} "User already exists"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 201 {object} int "User created successfully"
+// @Failure 400 {object} response "Invalid request data"
+// @Failure 409 {object} response "User already exists"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/user [post]
 func (u UserHandler) CreateUser(c *gin.Context) {
 	var req UserReq
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid request",
-			"details": err.Error(),
-		})
+		errorResponse(c, http.StatusBadRequest, fmt.Sprintf("Invalid request: %s", err.Error()))
 		return
 	}
 
@@ -60,15 +58,12 @@ func (u UserHandler) CreateUser(c *gin.Context) {
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message": "User added successfully",
-		"id":      id,
+		"id": id,
 	})
 
 	return
@@ -80,10 +75,10 @@ func (u UserHandler) CreateUser(c *gin.Context) {
 // @Tags users
 // @Produce json
 // @Security BearerAuth
-// @Success 200 {object} map[string]interface{} "Returns user profile data"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 404 {object} map[string]interface{} "User not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} UserRsp "Returns user profile data"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 404 {object} response "User not found"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/user [get]
 func (u UserHandler) GetUser(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
@@ -92,9 +87,7 @@ func (u UserHandler) GetUser(c *gin.Context) {
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 
@@ -118,19 +111,16 @@ func (u UserHandler) GetUser(c *gin.Context) {
 // @Security BearerAuth
 // @Param input body UserReq true "User update data"
 // @Success 200 "Profile updated successfully"
-// @Failure 400 {object} map[string]interface{} "Invalid request data"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 404 {object} map[string]interface{} "User not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} response "Invalid request data"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 404 {object} response "User not found"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/user [put]
 func (u UserHandler) UpdateUser(c *gin.Context) {
 	var req UserReq
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid data",
-			"details": err.Error(),
-		})
+		errorResponse(c, http.StatusBadRequest, fmt.Sprintf("Invalid request: %s", err.Error()))
 		return
 	}
 	userId := c.MustGet("UserId").(int)
@@ -139,9 +129,7 @@ func (u UserHandler) UpdateUser(c *gin.Context) {
 
 	if errUpdate != nil {
 		apiError := model.GetAppropriateApiError(errUpdate)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 
@@ -155,9 +143,9 @@ func (u UserHandler) UpdateUser(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Success 200 "Account deleted successfully"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 404 {object} map[string]interface{} "User not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 404 {object} response "User not found"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/user [delete]
 func (u UserHandler) DeleteUser(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
@@ -166,9 +154,7 @@ func (u UserHandler) DeleteUser(c *gin.Context) {
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 

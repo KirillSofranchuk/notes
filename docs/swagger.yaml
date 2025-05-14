@@ -65,6 +65,70 @@ definitions:
     - Login
     - Password
     type: object
+  handler.UserRsp:
+    description: User response data
+    properties:
+      Id:
+        example: 1
+        type: integer
+      Login:
+        example: user123
+        type: string
+      Name:
+        example: John
+        type: string
+      Surname:
+        example: Doe
+        type: string
+    type: object
+  handler.response:
+    properties:
+      error:
+        example: message
+        type: string
+    type: object
+  model.Folder:
+    properties:
+      id:
+        type: integer
+      notes:
+        items:
+          $ref: '#/definitions/model.Note'
+        type: array
+      timestamp:
+        type: string
+      title:
+        type: string
+    type: object
+  model.Note:
+    properties:
+      content:
+        type: string
+      id:
+        type: integer
+      isFavorite:
+        type: boolean
+      tags:
+        items:
+          type: string
+        type: array
+      timestamp:
+        type: string
+      title:
+        type: string
+    type: object
+  model.Notebook:
+    description: Notebook information
+    properties:
+      folders:
+        items:
+          $ref: '#/definitions/model.Folder'
+        type: array
+      notes:
+        items:
+          $ref: '#/definitions/model.Note'
+        type: array
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -90,23 +154,19 @@ paths:
         "200":
           description: Returns JWT token
           schema:
-            additionalProperties: true
-            type: object
+            type: string
         "400":
-          description: Invalid request data
+          description: Bad Request
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
-          description: Invalid credentials
+          description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       summary: Authenticate user
       tags:
       - auth
@@ -128,23 +188,19 @@ paths:
         "200":
           description: Returns ID of created folder
           schema:
-            additionalProperties: true
-            type: object
+            type: integer
         "400":
-          description: Invalid request data
+          description: Bad Request
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
-          description: Internal server error
+          description: Internal Server Error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Create a new folder
@@ -167,23 +223,19 @@ paths:
         "400":
           description: Invalid ID
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "404":
           description: Folder not found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Delete a folder
@@ -213,23 +265,19 @@ paths:
         "400":
           description: Invalid request data or ID
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "404":
           description: Folder not found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Update a folder
@@ -244,18 +292,11 @@ paths:
         "200":
           description: Returns user's notebook data
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/model.Notebook'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Get user's notebook
@@ -279,23 +320,19 @@ paths:
         "200":
           description: Returns ID of created note
           schema:
-            additionalProperties: true
-            type: object
+            type: integer
         "400":
           description: Invalid request data
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Create a new note
@@ -318,23 +355,19 @@ paths:
         "400":
           description: Invalid ID
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "404":
           description: Note not found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Delete a note
@@ -364,23 +397,19 @@ paths:
         "400":
           description: Invalid request data or ID
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "404":
           description: Note not found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Update a note
@@ -401,23 +430,19 @@ paths:
         "200":
           description: Note updated successfully
           schema:
-            additionalProperties: true
-            type: object
+            type: string
         "400":
           description: Empty query parameter
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Delete note to favorites
@@ -437,23 +462,19 @@ paths:
         "200":
           description: Note updated successfully
           schema:
-            additionalProperties: true
-            type: object
+            type: string
         "400":
           description: Empty query parameter
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Add note to favorites
@@ -480,23 +501,19 @@ paths:
         "200":
           description: Note updated successfully
           schema:
-            additionalProperties: true
-            type: object
+            type: string
         "400":
           description: Empty query parameter
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Moves note
@@ -511,18 +528,17 @@ paths:
         "200":
           description: Returns list of favorite notes
           schema:
-            additionalProperties: true
-            type: object
+            items:
+              $ref: '#/definitions/model.Note'
+            type: array
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Get favorite notes
@@ -543,23 +559,21 @@ paths:
         "200":
           description: Returns list of matching notes
           schema:
-            additionalProperties: true
-            type: object
+            items:
+              $ref: '#/definitions/model.Note'
+            type: array
         "400":
           description: Empty query parameter
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Search notes
@@ -576,18 +590,15 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "404":
           description: User not found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Delete user account
@@ -601,23 +612,19 @@ paths:
         "200":
           description: Returns user profile data
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.UserRsp'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "404":
           description: User not found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Get user profile
@@ -640,23 +647,19 @@ paths:
         "201":
           description: User created successfully
           schema:
-            additionalProperties: true
-            type: object
+            type: integer
         "400":
           description: Invalid request data
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "409":
           description: User already exists
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       summary: Create a new user
       tags:
       - users
@@ -679,23 +682,19 @@ paths:
         "400":
           description: Invalid request data
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "401":
           description: Unauthorized
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "404":
           description: User not found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.response'
       security:
       - BearerAuth: []
       summary: Update user profile

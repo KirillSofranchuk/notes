@@ -12,7 +12,7 @@ type Note struct {
 	Id         int
 	Title      string
 	Content    string
-	UserId     int
+	UserId     int `json:"-"`
 	IsFavorite bool
 	Timestamp  time.Time
 	Tags       *[]string

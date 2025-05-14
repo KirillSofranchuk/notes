@@ -3,6 +3,7 @@ package handler
 import (
 	"Notes/internal/model"
 	"Notes/internal/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -34,18 +35,15 @@ func NewNoteHandler(s service.AbstractNoteService) NoteHandler {
 // @Produce json
 // @Security BearerAuth
 // @Param input body NoteRq true "Note creation data"
-// @Success 200 {object} map[string]interface{} "Returns ID of created note"
-// @Failure 400 {object} map[string]interface{} "Invalid request data"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} int "Returns ID of created note"
+// @Failure 400 {object} response "Invalid request data"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/notes [post]
 func (n *NoteHandler) CreateNote(c *gin.Context) {
 	var req NoteRq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid request",
-			"details": err.Error(),
-		})
+		errorResponse(c, http.StatusBadRequest, fmt.Sprintf("Invalid request: %s", err.Error()))
 		return
 	}
 
@@ -54,9 +52,7 @@ func (n *NoteHandler) CreateNote(c *gin.Context) {
 	id, err := n.service.CreateNote(userId, req.Title, req.Content, req.Tags)
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 
@@ -73,18 +69,15 @@ func (n *NoteHandler) CreateNote(c *gin.Context) {
 // @Param id path int true "Note ID"
 // @Param input body NoteRq true "Note update data"
 // @Success 200 "Note updated successfully"
-// @Failure 400 {object} map[string]interface{} "Invalid request data or ID"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 404 {object} map[string]interface{} "Note not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} response "Invalid request data or ID"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 404 {object} response "Note not found"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/notes/{id} [put]
 func (n *NoteHandler) UpdateNote(c *gin.Context) {
 	var req NoteRq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid request",
-			"details": err.Error(),
-		})
+		errorResponse(c, http.StatusBadRequest, fmt.Sprintf("Invalid request: %s", err.Error()))
 		return
 	}
 
@@ -94,7 +87,7 @@ func (n *NoteHandler) UpdateNote(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		errorResponse(c, http.StatusBadRequest, "Invalid ID")
 		return
 	}
 
@@ -102,9 +95,7 @@ func (n *NoteHandler) UpdateNote(c *gin.Context) {
 
 	if errUpdate != nil {
 		apiError := model.GetAppropriateApiError(errUpdate)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{})
@@ -118,10 +109,10 @@ func (n *NoteHandler) UpdateNote(c *gin.Context) {
 // @Security BearerAuth
 // @Param id path int true "Note ID"
 // @Success 200 "Note deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Invalid ID"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 404 {object} map[string]interface{} "Note not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} response "Invalid ID"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 404 {object} response "Note not found"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/notes/{id} [delete]
 func (n *NoteHandler) DeleteNote(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
@@ -130,7 +121,7 @@ func (n *NoteHandler) DeleteNote(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		errorResponse(c, http.StatusBadRequest, "Invalid ID")
 		return
 	}
 
@@ -138,9 +129,7 @@ func (n *NoteHandler) DeleteNote(c *gin.Context) {
 
 	if errDelete != nil {
 		apiError := model.GetAppropriateApiError(errDelete)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{})
@@ -152,9 +141,9 @@ func (n *NoteHandler) DeleteNote(c *gin.Context) {
 // @Tags notes
 // @Produce json
 // @Security BearerAuth
-// @Success 200 {object} map[string]interface{} "Returns list of favorite notes"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} []model.Note "Returns list of favorite notes"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/notes/favorites [get]
 func (n *NoteHandler) GetFavoriteNotes(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
@@ -173,19 +162,17 @@ func (n *NoteHandler) GetFavoriteNotes(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Param query query string true "Search phrase"
-// @Success 200 {object} map[string]interface{} "Returns list of matching notes"
-// @Failure 400 {object} map[string]interface{} "Empty query parameter"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} []model.Note "Returns list of matching notes"
+// @Failure 400 {object} response "Empty query parameter"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/notes/search [get]
 func (n *NoteHandler) FindNotes(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
 	queryPhrase := c.Query("query")
 
 	if queryPhrase == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request",
-		})
+		errorResponse(c, http.StatusBadRequest, "Invalid request")
 		return
 	}
 
@@ -204,18 +191,15 @@ func (n *NoteHandler) FindNotes(c *gin.Context) {
 // @Security BearerAuth
 // @Param id path int true "Note ID"
 // @Param input body MoveNoteRq true "Note update data"
-// @Success 200 {object} map[string]interface{} "Note updated successfully"
-// @Failure 400 {object} map[string]interface{} "Empty query parameter"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} string "Note updated successfully"
+// @Failure 400 {object} response "Empty query parameter"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/notes/{id}/move [put]
 func (n *NoteHandler) MoveNote(c *gin.Context) {
 	var req MoveNoteRq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid request",
-			"details": err.Error(),
-		})
+		errorResponse(c, http.StatusBadRequest, fmt.Sprintf("Invalid request: %s", err.Error()))
 		return
 	}
 
@@ -225,7 +209,7 @@ func (n *NoteHandler) MoveNote(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		errorResponse(c, http.StatusBadRequest, "Invalid ID")
 		return
 	}
 
@@ -233,9 +217,7 @@ func (n *NoteHandler) MoveNote(c *gin.Context) {
 
 	if errMove != nil {
 		apiError := model.GetAppropriateApiError(errMove)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{})
@@ -248,10 +230,10 @@ func (n *NoteHandler) MoveNote(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Param id path int true "Note ID"
-// @Success 200 {object} map[string]interface{} "Note updated successfully"
-// @Failure 400 {object} map[string]interface{} "Empty query parameter"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} string "Note updated successfully"
+// @Failure 400 {object} response "Empty query parameter"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/notes/{id}/favorites [put]
 func (n *NoteHandler) AddToFavorites(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
@@ -260,7 +242,7 @@ func (n *NoteHandler) AddToFavorites(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		errorResponse(c, http.StatusBadRequest, "Invalid ID")
 		return
 	}
 
@@ -268,9 +250,7 @@ func (n *NoteHandler) AddToFavorites(c *gin.Context) {
 
 	if errMove != nil {
 		apiError := model.GetAppropriateApiError(errMove)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{})
@@ -283,10 +263,10 @@ func (n *NoteHandler) AddToFavorites(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Param id path int true "Note ID"
-// @Success 200 {object} map[string]interface{} "Note updated successfully"
-// @Failure 400 {object} map[string]interface{} "Empty query parameter"
-// @Failure 401 {object} map[string]interface{} "Unauthorized"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} string "Note updated successfully"
+// @Failure 400 {object} response "Empty query parameter"
+// @Failure 401 {object} response "Unauthorized"
+// @Failure 500 {object} response "Internal server error"
 // @Router /api/notes/{id}/favorites [delete]
 func (n *NoteHandler) DeleteFromFavorites(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
@@ -295,7 +275,7 @@ func (n *NoteHandler) DeleteFromFavorites(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		errorResponse(c, http.StatusBadRequest, "Invalid ID")
 		return
 	}
 
@@ -303,9 +283,7 @@ func (n *NoteHandler) DeleteFromFavorites(c *gin.Context) {
 
 	if errDelete != nil {
 		apiError := model.GetAppropriateApiError(errDelete)
-		c.JSON(apiError.Code, gin.H{
-			"error": apiError.Message,
-		})
+		errorResponseFromApiError(c, apiError)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{})

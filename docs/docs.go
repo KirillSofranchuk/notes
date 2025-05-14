@@ -43,29 +43,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Returns JWT token",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     },
                     "400": {
-                        "description": "Invalid request data",
+                        "description": "Bad Request",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
-                        "description": "Invalid credentials",
+                        "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -104,29 +100,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Returns ID of created folder",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "integer"
                         }
                     },
                     "400": {
-                        "description": "Invalid request data",
+                        "description": "Bad Request",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
-                        "description": "Internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -175,29 +167,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request data or ID",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "404": {
                         "description": "Folder not found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -232,29 +220,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid ID",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "404": {
                         "description": "Folder not found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -279,22 +263,13 @@ const docTemplate = `{
                     "200": {
                         "description": "Returns user's notebook data",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/model.Notebook"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -333,29 +308,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Returns ID of created note",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "integer"
                         }
                     },
                     "400": {
                         "description": "Invalid request data",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -380,22 +351,22 @@ const docTemplate = `{
                     "200": {
                         "description": "Returns list of favorite notes",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Note"
+                            }
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -429,29 +400,28 @@ const docTemplate = `{
                     "200": {
                         "description": "Returns list of matching notes",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Note"
+                            }
                         }
                     },
                     "400": {
                         "description": "Empty query parameter",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -500,29 +470,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request data or ID",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "404": {
                         "description": "Note not found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -557,29 +523,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid ID",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "404": {
                         "description": "Note not found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -613,29 +575,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Note updated successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     },
                     "400": {
                         "description": "Empty query parameter",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -667,29 +625,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Note updated successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     },
                     "400": {
                         "description": "Empty query parameter",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -732,29 +686,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Note updated successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     },
                     "400": {
                         "description": "Empty query parameter",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -779,29 +729,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Returns user profile data",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.UserRsp"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "404": {
                         "description": "User not found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -841,29 +787,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request data",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "404": {
                         "description": "User not found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -895,29 +837,25 @@ const docTemplate = `{
                     "201": {
                         "description": "User created successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "integer"
                         }
                     },
                     "400": {
                         "description": "Invalid request data",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "409": {
                         "description": "User already exists",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -943,22 +881,19 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "404": {
                         "description": "User not found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.response"
                         }
                     }
                 }
@@ -1057,6 +992,101 @@ const docTemplate = `{
                 "Surname": {
                     "type": "string",
                     "example": "Doe"
+                }
+            }
+        },
+        "handler.UserRsp": {
+            "description": "User response data",
+            "type": "object",
+            "properties": {
+                "Id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "Login": {
+                    "type": "string",
+                    "example": "user123"
+                },
+                "Name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "Surname": {
+                    "type": "string",
+                    "example": "Doe"
+                }
+            }
+        },
+        "handler.response": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "message"
+                }
+            }
+        },
+        "model.Folder": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "notes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Note"
+                    }
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Note": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isFavorite": {
+                    "type": "boolean"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Notebook": {
+            "description": "Notebook information",
+            "type": "object",
+            "properties": {
+                "folders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Folder"
+                    }
+                },
+                "notes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Note"
+                    }
                 }
             }
         }
