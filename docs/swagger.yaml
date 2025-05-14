@@ -1,0 +1,709 @@
+definitions:
+  handler.AuthReq:
+    description: User authentication credentials
+    properties:
+      Login:
+        example: user123
+        type: string
+      Password:
+        example: securePassword123
+        type: string
+    required:
+    - Login
+    - Password
+    type: object
+  handler.FolderReq:
+    properties:
+      Title:
+        example: My Folder
+        type: string
+    required:
+    - Title
+    type: object
+  handler.MoveNoteRq:
+    properties:
+      FolderId:
+        example: 1
+        type: integer
+    required:
+    - FolderId
+    type: object
+  handler.NoteRq:
+    properties:
+      Content:
+        example: Note content
+        type: string
+      Tags:
+        example:
+        - tag1
+        - tag2
+        items:
+          type: string
+        type: array
+      Title:
+        example: My Note
+        type: string
+    required:
+    - Title
+    type: object
+  handler.UserReq:
+    description: User creation/update request
+    properties:
+      Login:
+        example: user123
+        type: string
+      Name:
+        example: John
+        type: string
+      Password:
+        example: securePassword123
+        type: string
+      Surname:
+        example: Doe
+        type: string
+    required:
+    - Login
+    - Password
+    type: object
+  handler.UserRsp:
+    description: User response data
+    properties:
+      Id:
+        example: 1
+        type: integer
+      Login:
+        example: user123
+        type: string
+      Name:
+        example: John
+        type: string
+      Surname:
+        example: Doe
+        type: string
+    type: object
+  handler.response:
+    properties:
+      error:
+        example: message
+        type: string
+    type: object
+  model.Folder:
+    properties:
+      id:
+        type: integer
+      notes:
+        items:
+          $ref: '#/definitions/model.Note'
+        type: array
+      timestamp:
+        type: string
+      title:
+        type: string
+    type: object
+  model.Note:
+    properties:
+      content:
+        type: string
+      id:
+        type: integer
+      isFavorite:
+        type: boolean
+      tags:
+        items:
+          type: string
+        type: array
+      timestamp:
+        type: string
+      title:
+        type: string
+    type: object
+  model.Notebook:
+    description: Notebook information
+    properties:
+      folders:
+        items:
+          $ref: '#/definitions/model.Folder'
+        type: array
+      notes:
+        items:
+          $ref: '#/definitions/model.Note'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for Notes application
+  title: Notes API
+  version: "1.0"
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login user and get authentication token
+      parameters:
+      - description: User credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AuthReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns JWT token
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.response'
+      summary: Authenticate user
+      tags:
+      - auth
+  /api/folder:
+    post:
+      consumes:
+      - application/json
+      description: Create a new folder for the authenticated user
+      parameters:
+      - description: Folder creation data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.FolderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns ID of created folder
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Create a new folder
+      tags:
+      - folders
+  /api/folder/{id}:
+    delete:
+      description: Delete an existing folder for the authenticated user
+      parameters:
+      - description: Folder ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Folder deleted successfully
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "404":
+          description: Folder not found
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Delete a folder
+      tags:
+      - folders
+    put:
+      consumes:
+      - application/json
+      description: Update an existing folder for the authenticated user
+      parameters:
+      - description: Folder ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Folder update data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.FolderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Folder updated successfully
+        "400":
+          description: Invalid request data or ID
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "404":
+          description: Folder not found
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Update a folder
+      tags:
+      - folders
+  /api/notebook:
+    get:
+      description: Get the notebook data for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns user's notebook data
+          schema:
+            $ref: '#/definitions/model.Notebook'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Get user's notebook
+      tags:
+      - notebooks
+  /api/notes:
+    post:
+      consumes:
+      - application/json
+      description: Create a new note for the authenticated user
+      parameters:
+      - description: Note creation data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.NoteRq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns ID of created note
+          schema:
+            type: integer
+        "400":
+          description: Invalid request data
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Create a new note
+      tags:
+      - notes
+  /api/notes/{id}:
+    delete:
+      description: Delete an existing note for the authenticated user
+      parameters:
+      - description: Note ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Note deleted successfully
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "404":
+          description: Note not found
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Delete a note
+      tags:
+      - notes
+    put:
+      consumes:
+      - application/json
+      description: Update an existing note for the authenticated user
+      parameters:
+      - description: Note ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Note update data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.NoteRq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Note updated successfully
+        "400":
+          description: Invalid request data or ID
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "404":
+          description: Note not found
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Update a note
+      tags:
+      - notes
+  /api/notes/{id}/favorites:
+    delete:
+      description: Delete note to favorites for the authenticated user
+      parameters:
+      - description: Note ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Note updated successfully
+          schema:
+            type: string
+        "400":
+          description: Empty query parameter
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Delete note to favorites
+      tags:
+      - notes
+    put:
+      description: Add note to favorites for the authenticated user
+      parameters:
+      - description: Note ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Note updated successfully
+          schema:
+            type: string
+        "400":
+          description: Empty query parameter
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Add note to favorites
+      tags:
+      - notes
+  /api/notes/{id}/move:
+    put:
+      description: Move note from/out folder for the authenticated user
+      parameters:
+      - description: Note ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Note update data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.MoveNoteRq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Note updated successfully
+          schema:
+            type: string
+        "400":
+          description: Empty query parameter
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Moves note
+      tags:
+      - notes
+  /api/notes/favorites:
+    get:
+      description: Get all favorite notes for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns list of favorite notes
+          schema:
+            items:
+              $ref: '#/definitions/model.Note'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Get favorite notes
+      tags:
+      - notes
+  /api/notes/search:
+    get:
+      description: Search notes by query phrase for the authenticated user
+      parameters:
+      - description: Search phrase
+        in: query
+        name: query
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns list of matching notes
+          schema:
+            items:
+              $ref: '#/definitions/model.Note'
+            type: array
+        "400":
+          description: Empty query parameter
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Search notes
+      tags:
+      - notes
+  /api/user:
+    delete:
+      description: Delete account for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Account deleted successfully
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Delete user account
+      tags:
+      - users
+    get:
+      description: Get profile information for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns user profile data
+          schema:
+            $ref: '#/definitions/handler.UserRsp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Get user profile
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Register a new user in the system
+      parameters:
+      - description: User registration data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User created successfully
+          schema:
+            type: integer
+        "400":
+          description: Invalid request data
+          schema:
+            $ref: '#/definitions/handler.response'
+        "409":
+          description: User already exists
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      summary: Create a new user
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update profile information for the authenticated user
+      parameters:
+      - description: User update data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile updated successfully
+        "400":
+          description: Invalid request data
+          schema:
+            $ref: '#/definitions/handler.response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.response'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/handler.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.response'
+      security:
+      - BearerAuth: []
+      summary: Update user profile
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

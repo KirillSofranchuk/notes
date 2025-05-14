@@ -2,7 +2,8 @@ package logger
 
 import (
 	"Notes/internal/repository"
-	"fmt"
+	"context"
+	"log"
 	"time"
 )
 
@@ -18,7 +19,7 @@ func InitLogger(repo repository.AbstractRepository) {
 	previousUsersCount = repo.GetUsersCount()
 }
 
-func LogEntitiesAsync(repo repository.AbstractRepository, stop <-chan struct{}) {
+func LogEntitiesAsync(repo repository.AbstractRepository, ctx context.Context) {
 	go func() {
 		ticker := time.NewTicker(milliSecondsToSleep * time.Millisecond)
 		defer ticker.Stop()
@@ -32,8 +33,8 @@ func LogEntitiesAsync(repo repository.AbstractRepository, stop <-chan struct{}) 
 
 				if len(users) > previousUsersCount {
 					for _, e := range users[previousUsersCount:] {
-						fmt.Printf("New user saved: %v \n", e.GetInfo())
-						fmt.Println("_____________________________________")
+						log.Printf("New user saved: %v \n", e.GetInfo())
+						log.Println("_____________________________________")
 					}
 
 					previousUsersCount = len(users)
@@ -41,8 +42,8 @@ func LogEntitiesAsync(repo repository.AbstractRepository, stop <-chan struct{}) 
 
 				if len(folders) > previousFoldersCount {
 					for _, e := range folders[previousFoldersCount:] {
-						fmt.Printf("New folder saved: %v \n", e.GetInfo())
-						fmt.Println("_____________________________________")
+						log.Printf("New folder saved: %v \n", e.GetInfo())
+						log.Println("_____________________________________")
 					}
 
 					previousFoldersCount = len(folders)
@@ -50,14 +51,15 @@ func LogEntitiesAsync(repo repository.AbstractRepository, stop <-chan struct{}) 
 
 				if len(notes) > previousNotesCount {
 					for _, e := range notes[previousNotesCount:] {
-						fmt.Printf("New note saved: %v \n", e.GetInfo())
-						fmt.Println("_____________________________________")
+						log.Printf("New note saved: %v \n", e.GetInfo())
+						log.Println("_____________________________________")
 					}
 
 					previousNotesCount = len(notes)
 				}
 
-			case <-stop:
+			case <-ctx.Done():
+				log.Println("logger stopped")
 				return
 			}
 		}

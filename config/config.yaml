@@ -1,0 +1,5 @@
+server:
+  port: 8080
+app:
+  secret: "salt1234%"
+  tokenTtlHours: 5
