@@ -1,7 +1,6 @@
 package model
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -11,13 +10,13 @@ type Folder struct {
 	Id        int
 	Title     string
 	Timestamp time.Time
-	UserId    int
-	notes     []*Note
+	UserId    int `json:"-"`
+	Notes     []Note
 }
 
-func NewFolder(title string, userId int) (*Folder, error) {
+func NewFolder(title string, userId int) (*Folder, *ApplicationError) {
 	if len(title) == 0 {
-		return nil, errors.New("folder name cannot be empty")
+		return nil, NewApplicationError(ErrorTypeValidation, "Название папки не может быть пустым", nil)
 	}
 
 	return &Folder{
@@ -28,7 +27,7 @@ func NewFolder(title string, userId int) (*Folder, error) {
 	}, nil
 }
 
-func (f Folder) GetInfo() string {
+func (f *Folder) GetInfo() string {
 	notesInfo := "No notes"
 
 	notes := f.GetNotes()
@@ -48,19 +47,27 @@ func (f Folder) GetInfo() string {
 		"Notes: %s", f.Id, f.Title, f.Timestamp.Format(time.RFC1123), f.UserId, notesInfo)
 }
 
-func (f *Folder) GetNotes() []*Note {
-	if f.notes == nil {
-		return []*Note{}
-	}
-
-	return f.notes
+func (f *Folder) SetId(id int) {
+	f.Id = id
 }
 
-func (f *Folder) AppendNote(note Note) {
-	if f.notes == nil {
-		f.notes = []*Note{&note}
+func (f *Folder) GetId() int {
+	return f.Id
+}
+
+func (f *Folder) GetNotes() []Note {
+	if f.Notes == nil {
+		return []Note{}
+	}
+
+	return f.Notes
+}
+
+func (f *Folder) AppendNotes(notes []Note) {
+	if f.Notes == nil {
+		f.Notes = notes
 		return
 	}
 
-	f.notes = append(f.notes, &note)
+	f.Notes = append(f.Notes, notes...)
 }

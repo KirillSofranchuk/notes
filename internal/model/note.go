@@ -1,7 +1,6 @@
 package model
 
 import (
-	"errors"
 	"fmt"
 	"time"
 )
@@ -13,14 +12,14 @@ type Note struct {
 	Id         int
 	Title      string
 	Content    string
-	UserId     int
+	UserId     int `json:"-"`
 	IsFavorite bool
 	Timestamp  time.Time
-	Tags       []string
-	folder     *Folder
+	Tags       *[]string
+	folderId   *int
 }
 
-func NewNote(title string, content string, userId int, tags []string) (*Note, error) {
+func NewNote(title string, content string, userId int, tags *[]string) (*Note, *ApplicationError) {
 	validationError := validateNote(title, content, tags)
 
 	if validationError != nil {
@@ -35,11 +34,11 @@ func NewNote(title string, content string, userId int, tags []string) (*Note, er
 		IsFavorite: false,
 		Timestamp:  time.Now(),
 		Tags:       tags,
-		folder:     nil,
+		folderId:   nil,
 	}, nil
 }
 
-func (n Note) GetInfo() string {
+func (n *Note) GetInfo() string {
 	return fmt.Sprintf("Id: %d \n"+
 		"Title: %s \n"+
 		"Content: %s \n"+
@@ -49,7 +48,23 @@ func (n Note) GetInfo() string {
 		"Tags: %v", n.Id, n.Title, n.Content, n.UserId, n.IsFavorite, n.Timestamp.Format(time.RFC1123), n.Tags)
 }
 
-func validateNote(title string, content string, tags []string) error {
+func (n *Note) SetId(id int) {
+	n.Id = id
+}
+
+func (n *Note) GetId() int {
+	return n.Id
+}
+
+func (n *Note) GetFolderId() *int {
+	return n.folderId
+}
+
+func (n *Note) SetFolderId(folderId *int) {
+	n.folderId = folderId
+}
+
+func validateNote(title string, content string, tags *[]string) *ApplicationError {
 	titleValidationError := validateTitle(title)
 	if titleValidationError != nil {
 		return titleValidationError
@@ -70,33 +85,35 @@ func validateNote(title string, content string, tags []string) error {
 	return nil
 }
 
-func validateTitle(title string) error {
+func validateTitle(title string) *ApplicationError {
 	if len(title) == 0 {
-		return errors.New("length cannot be empty")
+		return NewApplicationError(ErrorTypeValidation, "Название заметки не может быть пустым", nil)
 	}
 
 	return nil
 }
 
-func validateContent(content string) error {
+func validateContent(content string) *ApplicationError {
 	if len(content) == 0 {
-		return errors.New("content cannot be empty")
+		return NewApplicationError(ErrorTypeValidation, "Заметка не может быть пустой", nil)
 	}
 
 	if len(content) > MaxContentLength {
-		return errors.New(fmt.Sprintf("content length cannot be more than %d symbols", MaxContentLength))
+		message := fmt.Sprintf("Длина заметки не может превышать %d символов", MaxContentLength)
+		return NewApplicationError(ErrorTypeValidation, message, nil)
 	}
 
 	return nil
 }
 
-func validateTags(tags []string) error {
+func validateTags(tags *[]string) *ApplicationError {
 	if tags == nil {
 		return nil
 	}
 
-	if len(tags) > MaxTagsCount {
-		return errors.New(fmt.Sprintf("cannot add more than %d tags to note", MaxTagsCount))
+	if len(*tags) > MaxTagsCount {
+		message := fmt.Sprintf("Нельзя добавить больше, чем %d тегов к заметке.", MaxTagsCount)
+		return NewApplicationError(ErrorTypeValidation, message, nil)
 	}
 
 	return nil
