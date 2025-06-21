@@ -16,7 +16,7 @@ type Note struct {
 	IsFavorite bool
 	Timestamp  time.Time
 	Tags       *[]string
-	folderId   *int
+	FolderId   *int `json:"-"`
 }
 
 func NewNote(title string, content string, userId int, tags *[]string) (*Note, *ApplicationError) {
@@ -32,9 +32,7 @@ func NewNote(title string, content string, userId int, tags *[]string) (*Note, *
 		Content:    content,
 		UserId:     userId,
 		IsFavorite: false,
-		Timestamp:  time.Now(),
 		Tags:       tags,
-		folderId:   nil,
 	}, nil
 }
 
@@ -56,12 +54,8 @@ func (n *Note) GetId() int {
 	return n.Id
 }
 
-func (n *Note) GetFolderId() *int {
-	return n.folderId
-}
-
-func (n *Note) SetFolderId(folderId *int) {
-	n.folderId = folderId
+func (n *Note) SetTimestamp() {
+	n.Timestamp = time.Now()
 }
 
 func validateNote(title string, content string, tags *[]string) *ApplicationError {

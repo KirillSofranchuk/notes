@@ -5,6 +5,8 @@ import (
 	"Notes/internal/repository"
 )
 
+//go:generate mockgen -source=authService.go -destination=mock/authService.go -package=mock
+
 type AbstractAuthService interface {
 	AuthUser(login, password string) (string, *model.ApplicationError)
 	ValidateToken(token string) (*model.Claims, *model.ApplicationError)
@@ -12,10 +14,10 @@ type AbstractAuthService interface {
 
 type ConcreteAuthService struct {
 	repo repository.AbstractRepository
-	jwt  JwtService
+	jwt  AbstractJwtService
 }
 
-func NewConcreteAuthService(repository repository.AbstractRepository, jwtService JwtService) AbstractAuthService {
+func NewConcreteAuthService(repository repository.AbstractRepository, jwtService AbstractJwtService) AbstractAuthService {
 	return &ConcreteAuthService{
 		repo: repository,
 		jwt:  jwtService,

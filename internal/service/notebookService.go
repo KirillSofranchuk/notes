@@ -1,5 +1,7 @@
 package service
 
+//go:generate mockgen -source=notebookService.go -destination=mock/notebookService.go -package=mock
+
 import (
 	"Notes/internal/model"
 	"Notes/internal/repository"
@@ -43,13 +45,14 @@ func (n *ConcreteNotebookService) getFoldersWithNotes(folders []*model.Folder, n
 }
 
 func (n *ConcreteNotebookService) getNotesRelatedToFolder(notes []*model.Note, folderId *int) []model.Note {
-	notesWithoutFolder := make([]model.Note, 0)
+	notesRelatedToFolder := make([]model.Note, 0)
 
 	for _, note := range notes {
-		if note.GetFolderId() == folderId {
-			notesWithoutFolder = append(notesWithoutFolder, *note)
+		folderIdFromNote := note.FolderId
+		if (folderIdFromNote == nil && folderId == nil) || ((folderIdFromNote != nil && folderId != nil) && (*folderIdFromNote == *folderId)) {
+			notesRelatedToFolder = append(notesRelatedToFolder, *note)
 		}
 	}
 
-	return notesWithoutFolder
+	return notesRelatedToFolder
 }

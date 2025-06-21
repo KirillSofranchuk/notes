@@ -2,6 +2,8 @@ package repository
 
 import "Notes/internal/model"
 
+//go:generate mockgen -source=abstractRepository.go -destination=../../internal/service/mock/abstractRepository.go -package=mock
+
 type AbstractRepository interface {
 	SaveEntity(entity model.BusinessEntity) (int, *model.ApplicationError)
 	DeleteEntity(entity model.BusinessEntity) *model.ApplicationError

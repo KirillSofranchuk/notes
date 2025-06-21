@@ -57,6 +57,8 @@ func (b *BusinessEntityStorage[T]) Save(entity T) (int, *model.ApplicationError)
 	b.mu.Lock()
 	defer b.mu.Unlock()
 
+	entity.SetTimestamp()
+
 	if entity.GetId() == defaultId {
 		newId := b.getIdForNewEntity()
 		entity.SetId(newId)
@@ -199,7 +201,7 @@ func (b *BusinessEntityStorage[T]) saveNewEntity(entity T) (int, *model.Applicat
 
 	file, err := os.OpenFile(b.filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, filePermission)
 	if err != nil {
-		return -1, model.NewApplicationError(model.ErrorTypeDatabase, "ошибка БД", nil)
+		return -1, DataBaseError
 	}
 	defer file.Close()
 

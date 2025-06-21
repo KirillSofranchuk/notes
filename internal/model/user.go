@@ -2,18 +2,20 @@ package model
 
 import (
 	"fmt"
+	"time"
 	"unicode"
 )
 
-const minLoginLength = 8
-const minPasswordLength = 10
+const MinLoginLength = 8
+const MinPasswordLength = 10
 
 type User struct {
-	Id       int
-	Name     string
-	Surname  string
-	Login    string
-	Password string
+	Id        int
+	Name      string
+	Surname   string
+	Login     string
+	Password  string
+	Timestamp time.Time
 }
 
 func NewUser(name string, surname string, login string, password string) (*User, *ApplicationError) {
@@ -45,6 +47,10 @@ func (u *User) SetId(id int) {
 
 func (u *User) GetId() int {
 	return u.Id
+}
+
+func (u *User) SetTimestamp() {
+	u.Timestamp = time.Now()
 }
 
 func validateUser(name string, surname string, login string, password string) *ApplicationError {
@@ -89,8 +95,8 @@ func validateCredentials(login string, password string) *ApplicationError {
 }
 
 func validateLogin(login string) *ApplicationError {
-	if len(login) < minLoginLength {
-		message := fmt.Sprintf("Логин слишком короткий. Пожалуйста, создайте логин длинной не меньше %d символов", minLoginLength)
+	if len(login) < MinLoginLength {
+		message := fmt.Sprintf("Логин слишком короткий. Пожалуйста, создайте логин длинной не меньше %d символов", MinLoginLength)
 		return NewApplicationError(ErrorTypeValidation, message, nil)
 	}
 
@@ -98,8 +104,8 @@ func validateLogin(login string) *ApplicationError {
 }
 
 func validatePassword(password string) *ApplicationError {
-	if len(password) < minPasswordLength {
-		message := fmt.Sprintf("Пароль слишком короткий. Пожалуйста, создайте пароль длиной не менее %d символов", minPasswordLength)
+	if len(password) < MinPasswordLength {
+		message := fmt.Sprintf("Пароль слишком короткий. Пожалуйста, создайте пароль длиной не менее %d символов", MinPasswordLength)
 		return NewApplicationError(ErrorTypeValidation, message, nil)
 	}
 
