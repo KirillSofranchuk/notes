@@ -157,14 +157,14 @@ func ConnectAndMigrate(cfg config.Database) (*gorm.DB, *sql.DB) {
 
 	m, err := migrate.New("file://migrations", dsn)
 	if err != nil {
-		log.Fatalf("❌ Ошибка инициализации мигратора: %v", err)
+		log.Fatalf("Ошибка инициализации мигратора: %v", err)
 	}
 
 	if err := m.Up(); err != nil && err.Error() != "no change" {
-		log.Fatalf("❌ Ошибка применения миграций: %v", err)
+		log.Fatalf("Ошибка применения миграций: %v", err)
 	}
 
-	log.Println("✅ Миграции успешно применены")
+	log.Println("Миграции успешно применены")
 
 	for i := 0; i < 10; i++ {
 		if err := sqlDB.Ping(); err == nil {
