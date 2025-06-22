@@ -29,12 +29,13 @@ func Run() {
 	}
 
 	repo := repository.NewPlainRepository()
-	jwtService := service.NewJwtService(cfg)
+	jwtService := service.NewConcreteJwtService(cfg)
+	hashService := service.NewConcreteHashService()
 	authService := service.NewConcreteAuthService(repo, jwtService)
 	folderService := service.NewConcreteFolderService(repo)
 	notebookService := service.NewConcreteNotebookService(repo)
 	noteService := service.NewConcreteNoteService(repo)
-	userService := service.NewConcreteUserService(repo)
+	userService := service.NewConcreteUserService(repo, hashService)
 
 	authHandler := handler.NewAuthHandler(authService)
 	folderHandler := handler.NewFolderHandler(folderService)

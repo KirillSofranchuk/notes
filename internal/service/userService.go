@@ -1,9 +1,10 @@
 package service
 
+//go:generate mockgen -source=userService.go -destination=mock/userService.go -package=mock
+
 import (
 	"Notes/internal/model"
 	"Notes/internal/repository"
-	"Notes/internal/utils"
 )
 
 const loginAlreadyUsedMessage = "пользователь с таким логином уже добавлен"
@@ -16,12 +17,14 @@ type AbstractUserService interface {
 }
 
 type UserService struct {
-	repo repository.AbstractRepository
+	repo        repository.AbstractRepository
+	hashService AbstractHashService
 }
 
-func NewConcreteUserService(repository repository.AbstractRepository) AbstractUserService {
+func NewConcreteUserService(repository repository.AbstractRepository, hashService AbstractHashService) AbstractUserService {
 	return &UserService{
-		repo: repository,
+		repo:        repository,
+		hashService: hashService,
 	}
 }
 
@@ -33,12 +36,12 @@ func (u UserService) CreateUser(login, password, name, surname string) (int, *mo
 	}
 
 	if !u.isLoginFree(newUser.Login, newUser.GetId()) {
-		return -1, model.NewApplicationError(model.ErrorTypeValidation, loginAlreadyUsedMessage, nil)
+		return fakeId, model.NewApplicationError(model.ErrorTypeValidation, loginAlreadyUsedMessage, nil)
 	}
 
-	passwordHash, errHash := utils.GetHash(newUser.Password)
+	passwordHash, errHash := u.hashService.GetHash(newUser.Password)
 	if errHash != nil {
-		return -1, errHash
+		return fakeId, errHash
 	}
 
 	newUser.Password = passwordHash
@@ -46,7 +49,7 @@ func (u UserService) CreateUser(login, password, name, surname string) (int, *mo
 	id, err := u.repo.SaveEntity(newUser)
 
 	if err != nil {
-		return -1, err
+		return fakeId, err
 	}
 
 	return id, nil
@@ -63,14 +66,14 @@ func (u UserService) UpdateUser(id int, login, password, name, surname string) *
 		return model.NewApplicationError(model.ErrorTypeValidation, loginAlreadyUsedMessage, nil)
 	}
 
+	passwordHash, errHash := u.hashService.GetHash(newUser.Password)
+	if errHash != nil {
+		return errHash
+	}
+
 	userDb, err := u.repo.GetUserById(id)
 	if err != nil {
 		return err
-	}
-
-	passwordHash, errHash := utils.GetHash(newUser.Password)
-	if errHash != nil {
-		return errHash
 	}
 
 	userDb.Login = login
@@ -88,14 +91,21 @@ func (u UserService) UpdateUser(id int, login, password, name, surname string) *
 
 func (u UserService) GetUser(userId int) (*model.User, *model.ApplicationError) {
 	user, err := u.repo.GetUserById(userId)
-	return user, err
+
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func (u UserService) DeleteUser(id int) *model.ApplicationError {
 	user, err := u.repo.GetUserById(id)
+
 	if err != nil {
 		return err
 	}
+
 	return u.repo.DeleteEntity(user)
 }
 

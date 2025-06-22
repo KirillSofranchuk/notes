@@ -1,5 +1,7 @@
 package service
 
+//go:generate mockgen -source=folderService.go -destination=mock/folderService.go -package=mock
+
 import (
 	"Notes/internal/model"
 	"Notes/internal/repository"
@@ -33,7 +35,7 @@ func (f FolderService) CreateFolder(userId int, title string) (int, *model.Appli
 		return fakeId, err
 	}
 
-	if !f.isTitleIsFree(folder.Title) {
+	if !f.isTitleIsFree(folder.Title, userId) {
 		return fakeId, model.NewApplicationError(model.ErrorTypeValidation, folderTitleIsNotFree, nil)
 	}
 
@@ -53,7 +55,7 @@ func (f FolderService) UpdateFolder(userId int, folderId int, title string) *mod
 		return err
 	}
 
-	if !f.isTitleIsFree(folder.Title) {
+	if !f.isTitleIsFree(folder.Title, userId) {
 		return model.NewApplicationError(model.ErrorTypeValidation, folderTitleIsNotFree, nil)
 	}
 
@@ -82,8 +84,8 @@ func (f FolderService) DeleteFolder(userId int, folderId int) *model.Application
 	return f.repo.DeleteEntity(folderDb)
 }
 
-func (f FolderService) isTitleIsFree(title string) bool {
-	folders := f.repo.GetFolders()
+func (f FolderService) isTitleIsFree(title string, id int) bool {
+	folders := f.repo.GetFoldersByUserId(id)
 
 	for _, folder := range folders {
 		if folder.Title == title {

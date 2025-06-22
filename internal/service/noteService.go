@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+//go:generate mockgen -source=noteService.go -destination=mock/noteService.go -package=mock
+
 type AbstractNoteService interface {
 	CreateNote(userId int, title string, content string, tags *[]string) (int, *model.ApplicationError)
 	DeleteNote(userId int, id int) *model.ApplicationError
@@ -56,21 +58,27 @@ func (n *NoteService) DeleteNote(userId int, id int) *model.ApplicationError {
 }
 
 func (n *NoteService) UpdateNote(userId int, id int, title string, content string, tags *[]string) *model.ApplicationError {
-	note, err := n.repo.GetNoteById(id, userId)
+	_, err := model.NewNote(title, content, userId, tags)
 
 	if err != nil {
 		return err
 	}
 
 	if !n.isTitleFree(title, userId) {
-		return model.NewApplicationError(model.ErrorTypeValidation, "Заметка с таким именем уже добавлена", nil)
+		return model.NewApplicationError(model.ErrorTypeValidation, "Заметка с таким названием уже добавлена", nil)
 	}
 
-	note.Title = title
-	note.Content = content
-	note.Tags = tags
+	noteDb, err := n.repo.GetNoteById(id, userId)
 
-	_, saveErr := n.repo.SaveEntity(note)
+	if err != nil {
+		return err
+	}
+
+	noteDb.Title = title
+	noteDb.Content = content
+	noteDb.Tags = tags
+
+	_, saveErr := n.repo.SaveEntity(noteDb)
 	return saveErr
 }
 
@@ -81,7 +89,15 @@ func (n *NoteService) MoveToFolder(userId int, id int, folderId *int) *model.App
 		return err
 	}
 
-	note.SetFolderId(folderId)
+	if folderId != nil {
+		_, folderErr := n.repo.GetFolderById(*folderId, userId)
+
+		if folderErr != nil {
+			return folderErr
+		}
+	}
+
+	note.FolderId = folderId
 
 	_, errSave := n.repo.SaveEntity(note)
 
@@ -130,6 +146,10 @@ func (n *NoteService) DeleteFromFavorites(userId int, id int) *model.Application
 
 func (n *NoteService) FindNotesByQueryPhrase(userId int, query string) []*model.Note {
 	userNotes := n.repo.GetNotesByUserId(userId)
+
+	if query == "" {
+		return userNotes
+	}
 
 	relatedNotes := make([]*model.Note, 0)
 

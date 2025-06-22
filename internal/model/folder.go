@@ -20,10 +20,9 @@ func NewFolder(title string, userId int) (*Folder, *ApplicationError) {
 	}
 
 	return &Folder{
-		Id:        0,
-		Title:     title,
-		Timestamp: time.Now(),
-		UserId:    userId,
+		Id:     0,
+		Title:  title,
+		UserId: userId,
 	}, nil
 }
 
@@ -61,6 +60,10 @@ func (f *Folder) GetNotes() []Note {
 	}
 
 	return f.Notes
+}
+
+func (f *Folder) SetTimestamp() {
+	f.Timestamp = time.Now()
 }
 
 func (f *Folder) AppendNotes(notes []Note) {

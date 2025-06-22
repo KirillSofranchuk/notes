@@ -1,5 +1,7 @@
 package service
 
+//go:generate mockgen -source=jwtService.go -destination=mock/jwtService.go -package=mock
+
 import (
 	"Notes/config"
 	"Notes/internal/model"
@@ -7,12 +9,17 @@ import (
 	"time"
 )
 
+type AbstractJwtService interface {
+	GetToken(id int) (string, *model.ApplicationError)
+	ParseToken(tokenString string) (*model.Claims, *model.ApplicationError)
+}
+
 type JwtService struct {
 	cfg *config.Config
 }
 
-func NewJwtService(cfg *config.Config) JwtService {
-	return JwtService{
+func NewConcreteJwtService(cfg *config.Config) AbstractJwtService {
+	return &JwtService{
 		cfg: cfg,
 	}
 }
