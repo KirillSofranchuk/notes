@@ -16,11 +16,6 @@ const (
 	defaultIndex   = -1
 )
 
-var (
-	EntityNotFoundError = model.NewApplicationError(model.ErrorTypeNotFound, "сущность не найдена", nil)
-	DataBaseError       = model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil)
-)
-
 type BusinessEntityStorage[T model.BusinessEntity] struct {
 	entities []T
 	mu       sync.RWMutex

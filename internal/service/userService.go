@@ -5,6 +5,7 @@ package service
 import (
 	"Notes/internal/model"
 	"Notes/internal/repository"
+	"log"
 )
 
 const loginAlreadyUsedMessage = "пользователь с таким логином уже добавлен"
@@ -30,6 +31,8 @@ func NewConcreteUserService(repository repository.AbstractRepository, hashServic
 
 func (u UserService) CreateUser(login, password, name, surname string) (int, *model.ApplicationError) {
 	newUser, err := model.NewUser(name, surname, login, password)
+
+	log.Println(newUser)
 
 	if err != nil {
 		return -1, err

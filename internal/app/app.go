@@ -5,15 +5,22 @@ import (
 	_ "Notes/docs"
 	"Notes/internal/api/http/handler"
 	"Notes/internal/api/http/middleware"
-	"Notes/internal/logger"
 	"Notes/internal/repository"
 	"Notes/internal/service"
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/lib/pq"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"log"
 	"net/http"
 	"os"
@@ -28,14 +35,20 @@ func Run() {
 		log.Fatalf("Config error: %s", err)
 	}
 
-	repo := repository.NewPlainRepository()
+	log.Println(cfg)
+
+	gormDb, sqlDb := ConnectAndMigrate(cfg.Database)
+
+	defer sqlDb.Close()
+
+	postgresRepo := repository.NewPostgresRepository(gormDb)
 	jwtService := service.NewConcreteJwtService(cfg)
 	hashService := service.NewConcreteHashService()
-	authService := service.NewConcreteAuthService(repo, jwtService)
-	folderService := service.NewConcreteFolderService(repo)
-	notebookService := service.NewConcreteNotebookService(repo)
-	noteService := service.NewConcreteNoteService(repo)
-	userService := service.NewConcreteUserService(repo, hashService)
+	authService := service.NewConcreteAuthService(postgresRepo, jwtService)
+	folderService := service.NewConcreteFolderService(postgresRepo)
+	notebookService := service.NewConcreteNotebookService(postgresRepo)
+	noteService := service.NewConcreteNoteService(postgresRepo)
+	userService := service.NewConcreteUserService(postgresRepo, hashService)
 
 	authHandler := handler.NewAuthHandler(authService)
 	folderHandler := handler.NewFolderHandler(folderService)
@@ -43,10 +56,10 @@ func Run() {
 	noteHandler := handler.NewNoteHandler(noteService)
 	userHandler := handler.NewUserHandler(userService)
 
-	logger.InitLogger(repo)
+	//logger.InitLogger(postgresRepo)
 	ctx, cancelLogger := context.WithCancel(context.Background())
 	defer cancelLogger()
-	logger.LogEntitiesAsync(repo, ctx)
+	//logger.LogEntitiesAsync(postgresRepo, ctx)
 
 	r := gin.Default()
 
@@ -110,4 +123,56 @@ func Run() {
 	}
 
 	log.Println("Server exited properly")
+}
+
+func ConnectAndMigrate(cfg config.Database) (*gorm.DB, *sql.DB) {
+	dsn := fmt.Sprintf(
+		"postgres://%s:%s@%s:%d/%s?sslmode=%s",
+		cfg.User,
+		cfg.Password,
+		cfg.Host,
+		cfg.Port,
+		cfg.Name,
+		cfg.SSLMode,
+	)
+
+	gormLogger := logger.New(
+		log.New(os.Stdout, "", log.LstdFlags),
+		logger.Config{LogLevel: logger.Info},
+	)
+
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: gormLogger})
+	if err != nil {
+		log.Fatalf("Ошибка подключения к БД: %v", err)
+	}
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatalf("Ошибка получения *sql.DB: %v", err)
+	}
+
+	sqlDB.SetMaxIdleConns(cfg.MaxIdleConns)
+	sqlDB.SetMaxOpenConns(cfg.MaxOpenConns)
+	sqlDB.SetConnMaxLifetime(time.Duration(cfg.ConnMaxLifetime) * time.Second)
+
+	m, err := migrate.New("file://migrations", dsn)
+	if err != nil {
+		log.Fatalf("❌ Ошибка инициализации мигратора: %v", err)
+	}
+
+	if err := m.Up(); err != nil && err.Error() != "no change" {
+		log.Fatalf("❌ Ошибка применения миграций: %v", err)
+	}
+
+	log.Println("✅ Миграции успешно применены")
+
+	for i := 0; i < 10; i++ {
+		if err := sqlDB.Ping(); err == nil {
+			break
+		}
+		log.Println("БД не отвечает, повтор через 1 секунду...")
+		time.Sleep(time.Second)
+	}
+
+	return db, sqlDB
 }
