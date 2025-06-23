@@ -1,5 +1,15 @@
 server:
   port: 8080
+database:
+    host: db
+    port: 5432
+    user: postgres
+    password: secret
+    name: notesdb
+    sslmode: disable
+    maxIdleConns: 10
+    maxOpenConns: 50
+    connMaxLifetime: 300
 app:
   secret: "salt1234%"
   tokenTtlHours: 5

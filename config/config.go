@@ -8,12 +8,25 @@ import (
 )
 
 type Config struct {
-	Server Server `yaml:"server"`
-	App    App    `yaml:"app"`
+	Server   Server   `yaml:"server"`
+	Database Database `yaml:"database"`
+	App      App      `yaml:"app"`
 }
 
 type Server struct {
 	Port int `yaml:"port"`
+}
+
+type Database struct {
+	Host            string `yaml:"host"`
+	Port            int    `yaml:"port"`
+	User            string `yaml:"user"`
+	Password        string `yaml:"password"`
+	Name            string `yaml:"name"`
+	SSLMode         string `yaml:"sslmode"`
+	MaxIdleConns    int    `yaml:"maxIdleConns"`
+	MaxOpenConns    int    `yaml:"maxOpenConns"`
+	ConnMaxLifetime int    `yaml:"connMaxLifetime"`
 }
 
 type App struct {
