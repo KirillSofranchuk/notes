@@ -38,7 +38,7 @@ func (n *NoteService) CreateNote(userId int, title string, content string, tags 
 	}
 
 	if !n.isTitleFree(newNote.Title, userId, 0) {
-		return constants.FakeId, model.NewApplicationError(model.ErrorTypeValidation, "Заметка с таким названием уже добавлена", nil)
+		return constants.FakeId, model.NewApplicationError(model.ErrorTypeValidation, constants.NoteNameIsNotFree, nil)
 	}
 
 	return n.repo.SaveEntity(newNote)
@@ -66,7 +66,7 @@ func (n *NoteService) UpdateNote(userId int, id int, title string, content strin
 	}
 
 	if !n.isTitleFree(title, userId, id) {
-		return model.NewApplicationError(model.ErrorTypeValidation, "Заметка с таким названием уже добавлена", nil)
+		return model.NewApplicationError(model.ErrorTypeValidation, constants.NoteNameIsNotFree, nil)
 	}
 
 	noteDb, err := n.repo.GetNoteById(id, userId)

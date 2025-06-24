@@ -129,7 +129,7 @@ func TestConcreteNoteService_CreateNote(t *testing.T) {
 			},
 			want: noteTestExpect{
 				id:    -1,
-				error: model.NewApplicationError(model.ErrorTypeValidation, "Заметка с таким названием уже добавлена", nil),
+				error: model.NewApplicationError(model.ErrorTypeValidation, constants.NoteNameIsNotFree, nil),
 			},
 			wantErr: true,
 		},
@@ -277,7 +277,7 @@ func TestConcreteNoteService_UpdateNote(t *testing.T) {
 				})
 			},
 			want: noteTestExpect{
-				error: model.NewApplicationError(model.ErrorTypeValidation, "Заметка с таким названием уже добавлена", nil),
+				error: model.NewApplicationError(model.ErrorTypeValidation, constants.NoteNameIsNotFree, nil),
 			},
 			wantErr: true,
 		},
