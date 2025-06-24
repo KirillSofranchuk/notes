@@ -1,0 +1,4287 @@
+{
+	"info": {
+		"_postman_id": "c2c4abc1-59c1-497c-9c2c-464e5e0d1d92",
+		"name": "Notes API",
+		"description": "API for Notes application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37049671"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "login",
+							"item": [
+								{
+									"name": "Authenticate user",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										},
+										"description": "Login user and get authentication token"
+									},
+									"response": [
+										{
+											"name": "Returns JWT token",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/login",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"login"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "irure minim in"
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/login",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"login"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/login",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"login"
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Internal Server Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/login",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"login"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "folder",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "Update a folder",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Folder\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/folder/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"folder",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-227965",
+													"description": "(Required) Folder ID"
+												}
+											]
+										},
+										"description": "Update an existing folder for the authenticated user"
+									},
+									"response": [
+										{
+											"name": "Folder updated successfully",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Folder\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Invalid request data or ID",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Folder\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Folder\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Folder not found",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Folder\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Internal server error",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Folder\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Delete a folder",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/folder/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"folder",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-227965",
+													"description": "(Required) Folder ID"
+												}
+											]
+										},
+										"description": "Delete an existing folder for the authenticated user"
+									},
+									"response": [
+										{
+											"name": "Folder deleted successfully",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Invalid ID",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Folder not found",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Internal server error",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/folder/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"folder",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Create a new folder",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"Title\": \"My Folder\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/folder",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"folder"
+									]
+								},
+								"description": "Create a new folder for the authenticated user"
+							},
+							"response": [
+								{
+									"name": "Returns ID of created folder",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Folder\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/folder",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"folder"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "-227965"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Folder\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/folder",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"folder"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Folder\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/folder",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"folder"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Internal Server Error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Folder\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/folder",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"folder"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "notebook",
+					"item": [
+						{
+							"name": "Get user's notebook",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/notebook",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"notebook"
+									]
+								},
+								"description": "Get the notebook data for the authenticated user"
+							},
+							"response": [
+								{
+									"name": "Returns user's notebook data",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/notebook",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notebook"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"folders\": [\n    {\n      \"id\": 20693413,\n      \"notes\": [\n        {\n          \"content\": \"exercitation laborum ut esse\",\n          \"id\": -49475335,\n          \"isFavorite\": false,\n          \"tags\": [\n            \"culpa\",\n            \"sit do\"\n          ],\n          \"timestamp\": \"nisi labore magna laboris\",\n          \"title\": \"ad elit nulla\"\n        },\n        {\n          \"content\": \"in adipisicing laborum\",\n          \"id\": 88602925,\n          \"isFavorite\": false,\n          \"tags\": [\n            \"cillum minim anim veniam\",\n            \"occaecat dolore\"\n          ],\n          \"timestamp\": \"adipisicing reprehenderit cillum sint\",\n          \"title\": \"nulla est quis exercitation\"\n        }\n      ],\n      \"timestamp\": \"pariatur\",\n      \"title\": \"elit sunt\"\n    },\n    {\n      \"id\": -76739657,\n      \"notes\": [\n        {\n          \"content\": \"Excepteur dolore voluptate culpa\",\n          \"id\": 30025637,\n          \"isFavorite\": true,\n          \"tags\": [\n            \"labore \",\n            \"consectetur\"\n          ],\n          \"timestamp\": \"in nulla amet\",\n          \"title\": \"quis incididunt dolor nulla\"\n        },\n        {\n          \"content\": \"nostrud velit ut cillum\",\n          \"id\": 94535093,\n          \"isFavorite\": false,\n          \"tags\": [\n            \"labore id sint anim\",\n            \"id enim in proident\"\n          ],\n          \"timestamp\": \"conse\",\n          \"title\": \"incididunt ut\"\n        }\n      ],\n      \"timestamp\": \"\",\n      \"title\": \"ut tempor s\"\n    }\n  ],\n  \"notes\": [\n    {\n      \"content\": \"laboris eiusmod ut\",\n      \"id\": -16625567,\n      \"isFavorite\": false,\n      \"tags\": [\n        \"anim cupidatat\",\n        \"anim laboris et\"\n      ],\n      \"timestamp\": \"consequat in\",\n      \"title\": \"magna deserunt\"\n    },\n    {\n      \"content\": \"in Dui\",\n      \"id\": -49475737,\n      \"isFavorite\": false,\n      \"tags\": [\n        \"voluptate reprehenderi\",\n        \"aute amet tempor labore\"\n      ],\n      \"timestamp\": \"reprehenderit quis nisi\",\n      \"title\": \"magna Duis veniam reprehenderit\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/notebook",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notebook"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "notes",
+					"item": [
+						{
+							"name": "favorites",
+							"item": [
+								{
+									"name": "Get favorite notes",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/notes/favorites",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notes",
+												"favorites"
+											]
+										},
+										"description": "Get all favorite notes for the authenticated user"
+									},
+									"response": [
+										{
+											"name": "Returns list of favorite notes",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/favorites",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														"favorites"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"content\": \"ut\",\n    \"id\": -52163862,\n    \"isFavorite\": true,\n    \"tags\": [\n      \"dolor voluptate ex velit eiusmod\",\n      \"culpa\"\n    ],\n    \"timestamp\": \"occaecat velit aliquip\",\n    \"title\": \"proident quis\"\n  },\n  {\n    \"content\": \"qui ut i\",\n    \"id\": 11646284,\n    \"isFavorite\": true,\n    \"tags\": [\n      \"ad aliquip\",\n      \"veniam nulla anim reprehenderit\"\n    ],\n    \"timestamp\": \"commodo fugiat\",\n    \"title\": \"consequat\"\n  }\n]"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/favorites",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														"favorites"
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Internal server error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/favorites",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														"favorites"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "search",
+							"item": [
+								{
+									"name": "Search notes",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/notes/search?query=irure minim in",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notes",
+												"search"
+											],
+											"query": [
+												{
+													"key": "query",
+													"value": "irure minim in",
+													"description": "(Required) Search phrase"
+												}
+											]
+										},
+										"description": "Search notes by query phrase for the authenticated user"
+									},
+									"response": [
+										{
+											"name": "Returns list of matching notes",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/search?query=irure minim in",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														"search"
+													],
+													"query": [
+														{
+															"key": "query",
+															"value": "irure minim in",
+															"description": "(Required) Search phrase"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"content\": \"ut\",\n    \"id\": -52163862,\n    \"isFavorite\": true,\n    \"tags\": [\n      \"dolor voluptate ex velit eiusmod\",\n      \"culpa\"\n    ],\n    \"timestamp\": \"occaecat velit aliquip\",\n    \"title\": \"proident quis\"\n  },\n  {\n    \"content\": \"qui ut i\",\n    \"id\": 11646284,\n    \"isFavorite\": true,\n    \"tags\": [\n      \"ad aliquip\",\n      \"veniam nulla anim reprehenderit\"\n    ],\n    \"timestamp\": \"commodo fugiat\",\n    \"title\": \"consequat\"\n  }\n]"
+										},
+										{
+											"name": "Empty query parameter",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/search?query=irure minim in",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														"search"
+													],
+													"query": [
+														{
+															"key": "query",
+															"value": "irure minim in",
+															"description": "(Required) Search phrase"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/search?query=irure minim in",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														"search"
+													],
+													"query": [
+														{
+															"key": "query",
+															"value": "irure minim in",
+															"description": "(Required) Search phrase"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Internal server error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/search?query=irure minim in",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														"search"
+													],
+													"query": [
+														{
+															"key": "query",
+															"value": "irure minim in",
+															"description": "(Required) Search phrase"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "favorites",
+									"item": [
+										{
+											"name": "Add note to favorites",
+											"request": {
+												"auth": {
+													"type": "apikey",
+													"apikey": [
+														{
+															"key": "key",
+															"value": "Authorization",
+															"type": "string"
+														},
+														{
+															"key": "value",
+															"value": "{{apiKey}}",
+															"type": "string"
+														},
+														{
+															"key": "in",
+															"value": "header",
+															"type": "string"
+														}
+													]
+												},
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id/favorites",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id",
+														"favorites"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-227965",
+															"description": "(Required) Note ID"
+														}
+													]
+												},
+												"description": "Add note to favorites for the authenticated user"
+											},
+											"response": [
+												{
+													"name": "Note updated successfully",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/favorites",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"favorites"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "irure minim in"
+												},
+												{
+													"name": "Empty query parameter",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/favorites",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"favorites"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												},
+												{
+													"name": "Unauthorized",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/favorites",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"favorites"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Unauthorized",
+													"code": 401,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												},
+												{
+													"name": "Internal server error",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/favorites",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"favorites"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												}
+											]
+										},
+										{
+											"name": "Delete note to favorites",
+											"request": {
+												"auth": {
+													"type": "apikey",
+													"apikey": [
+														{
+															"key": "key",
+															"value": "Authorization",
+															"type": "string"
+														},
+														{
+															"key": "value",
+															"value": "{{apiKey}}",
+															"type": "string"
+														},
+														{
+															"key": "in",
+															"value": "header",
+															"type": "string"
+														}
+													]
+												},
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id/favorites",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id",
+														"favorites"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-227965",
+															"description": "(Required) Note ID"
+														}
+													]
+												},
+												"description": "Delete note to favorites for the authenticated user"
+											},
+											"response": [
+												{
+													"name": "Note updated successfully",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/favorites",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"favorites"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "irure minim in"
+												},
+												{
+													"name": "Empty query parameter",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/favorites",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"favorites"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												},
+												{
+													"name": "Unauthorized",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/favorites",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"favorites"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Unauthorized",
+													"code": 401,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												},
+												{
+													"name": "Internal server error",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/favorites",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"favorites"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "move",
+									"item": [
+										{
+											"name": "Moves note",
+											"request": {
+												"auth": {
+													"type": "apikey",
+													"apikey": [
+														{
+															"key": "key",
+															"value": "Authorization",
+															"type": "string"
+														},
+														{
+															"key": "value",
+															"value": "{{apiKey}}",
+															"type": "string"
+														},
+														{
+															"key": "in",
+															"value": "header",
+															"type": "string"
+														}
+													]
+												},
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"FolderId\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id/move",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id",
+														"move"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-227965",
+															"description": "(Required) Note ID"
+														}
+													]
+												},
+												"description": "Move note from/out folder for the authenticated user"
+											},
+											"response": [
+												{
+													"name": "Note updated successfully",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"FolderId\": 1\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/move",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"move"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "irure minim in"
+												},
+												{
+													"name": "Empty query parameter",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"FolderId\": 1\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/move",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"move"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												},
+												{
+													"name": "Unauthorized",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"FolderId\": 1\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/move",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"move"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Unauthorized",
+													"code": 401,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												},
+												{
+													"name": "Internal server error",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"FolderId\": 1\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/notes/:id/move",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"notes",
+																":id",
+																"move"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"error\": \"message\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "Update a note",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/notes/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notes",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-227965",
+													"description": "(Required) Note ID"
+												}
+											]
+										},
+										"description": "Update an existing note for the authenticated user"
+									},
+									"response": [
+										{
+											"name": "Note updated successfully",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Invalid request data or ID",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Note not found",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Internal server error",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Delete a note",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "Authorization",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/notes/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notes",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-227965",
+													"description": "(Required) Note ID"
+												}
+											]
+										},
+										"description": "Delete an existing note for the authenticated user"
+									},
+									"response": [
+										{
+											"name": "Note deleted successfully",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Invalid ID",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Note not found",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										},
+										{
+											"name": "Internal server error",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/notes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"notes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"error\": \"message\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Create a new note",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/notes",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"notes"
+									]
+								},
+								"description": "Create a new note for the authenticated user"
+							},
+							"response": [
+								{
+									"name": "Returns ID of created note",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/notes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notes"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "-227965"
+								},
+								{
+									"name": "Invalid request data",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/notes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notes"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/notes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notes"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Title\": \"My Note\",\n  \"Content\": \"Note content\",\n  \"Tags\": [\n    \"tag1\",\n    \"tag2\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/notes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"notes"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "Get user profile",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								},
+								"description": "Get profile information for the authenticated user"
+							},
+							"response": [
+								{
+									"name": "Returns user profile data",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"Id\": 1,\n  \"Login\": \"user123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "User not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update user profile",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								},
+								"description": "Update profile information for the authenticated user"
+							},
+							"response": [
+								{
+									"name": "Profile updated successfully",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Invalid request data",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "User not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Create a new user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								},
+								"description": "Register a new user in the system"
+							},
+							"response": [
+								{
+									"name": "User created successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "-227965"
+								},
+								{
+									"name": "Invalid request data",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "User already exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"Login\": \"user123\",\n  \"Password\": \"securePassword123\",\n  \"Name\": \"John\",\n  \"Surname\": \"Doe\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete user account",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								},
+								"description": "Delete account for the authenticated user"
+							},
+							"response": [
+								{
+									"name": "Account deleted successfully",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "User not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"user"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"message\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "//localhost:8080"
+		}
+	]
+}
