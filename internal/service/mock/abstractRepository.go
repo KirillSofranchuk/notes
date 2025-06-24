@@ -63,20 +63,6 @@ func (mr *MockAbstractRepositoryMockRecorder) GetFolderById(id, userId interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFolderById", reflect.TypeOf((*MockAbstractRepository)(nil).GetFolderById), id, userId)
 }
 
-// GetFolders mocks base method.
-func (m *MockAbstractRepository) GetFolders() []*model.Folder {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetFolders")
-	ret0, _ := ret[0].([]*model.Folder)
-	return ret0
-}
-
-// GetFolders indicates an expected call of GetFolders.
-func (mr *MockAbstractRepositoryMockRecorder) GetFolders() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFolders", reflect.TypeOf((*MockAbstractRepository)(nil).GetFolders))
-}
-
 // GetFoldersByUserId mocks base method.
 func (m *MockAbstractRepository) GetFoldersByUserId(userId int) []*model.Folder {
 	m.ctrl.T.Helper()
@@ -89,20 +75,6 @@ func (m *MockAbstractRepository) GetFoldersByUserId(userId int) []*model.Folder 
 func (mr *MockAbstractRepositoryMockRecorder) GetFoldersByUserId(userId interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFoldersByUserId", reflect.TypeOf((*MockAbstractRepository)(nil).GetFoldersByUserId), userId)
-}
-
-// GetFoldersCount mocks base method.
-func (m *MockAbstractRepository) GetFoldersCount() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetFoldersCount")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// GetFoldersCount indicates an expected call of GetFoldersCount.
-func (mr *MockAbstractRepositoryMockRecorder) GetFoldersCount() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFoldersCount", reflect.TypeOf((*MockAbstractRepository)(nil).GetFoldersCount))
 }
 
 // GetNoteById mocks base method.
@@ -120,20 +92,6 @@ func (mr *MockAbstractRepositoryMockRecorder) GetNoteById(id, userId interface{}
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNoteById", reflect.TypeOf((*MockAbstractRepository)(nil).GetNoteById), id, userId)
 }
 
-// GetNotes mocks base method.
-func (m *MockAbstractRepository) GetNotes() []*model.Note {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetNotes")
-	ret0, _ := ret[0].([]*model.Note)
-	return ret0
-}
-
-// GetNotes indicates an expected call of GetNotes.
-func (mr *MockAbstractRepositoryMockRecorder) GetNotes() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNotes", reflect.TypeOf((*MockAbstractRepository)(nil).GetNotes))
-}
-
 // GetNotesByUserId mocks base method.
 func (m *MockAbstractRepository) GetNotesByUserId(userId int) []*model.Note {
 	m.ctrl.T.Helper()
@@ -146,20 +104,6 @@ func (m *MockAbstractRepository) GetNotesByUserId(userId int) []*model.Note {
 func (mr *MockAbstractRepositoryMockRecorder) GetNotesByUserId(userId interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNotesByUserId", reflect.TypeOf((*MockAbstractRepository)(nil).GetNotesByUserId), userId)
-}
-
-// GetNotesCount mocks base method.
-func (m *MockAbstractRepository) GetNotesCount() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetNotesCount")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// GetNotesCount indicates an expected call of GetNotesCount.
-func (mr *MockAbstractRepositoryMockRecorder) GetNotesCount() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNotesCount", reflect.TypeOf((*MockAbstractRepository)(nil).GetNotesCount))
 }
 
 // GetUser mocks base method.
@@ -204,20 +148,6 @@ func (m *MockAbstractRepository) GetUsers() []*model.User {
 func (mr *MockAbstractRepositoryMockRecorder) GetUsers() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsers", reflect.TypeOf((*MockAbstractRepository)(nil).GetUsers))
-}
-
-// GetUsersCount mocks base method.
-func (m *MockAbstractRepository) GetUsersCount() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUsersCount")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// GetUsersCount indicates an expected call of GetUsersCount.
-func (mr *MockAbstractRepositoryMockRecorder) GetUsersCount() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsersCount", reflect.TypeOf((*MockAbstractRepository)(nil).GetUsersCount))
 }
 
 // SaveEntity mocks base method.

@@ -38,8 +38,8 @@ func TestConcreteNotebookService_GetUserNotebook(t *testing.T) {
 			},
 			args: 1,
 			want: model.Notebook{
-				Folders: []model.Folder{},
-				Notes:   []model.Note{},
+				Folders: []model.FolderApi{},
+				Notes:   []model.NoteApi{},
 			},
 			wantErr: false,
 		},
@@ -59,16 +59,16 @@ func TestConcreteNotebookService_GetUserNotebook(t *testing.T) {
 			},
 			args: 1,
 			want: model.Notebook{
-				Folders: []model.Folder{
+				Folders: []model.FolderApi{
 					{
 						Id:        1,
 						Title:     "title",
 						Timestamp: fixedTime,
 						UserId:    1,
-						Notes:     []model.Note{},
+						Notes:     []model.NoteApi{},
 					},
 				},
-				Notes: []model.Note{},
+				Notes: []model.NoteApi{},
 			},
 			wantErr: false,
 		},
@@ -98,16 +98,16 @@ func TestConcreteNotebookService_GetUserNotebook(t *testing.T) {
 			},
 			args: 1,
 			want: model.Notebook{
-				Folders: []model.Folder{
+				Folders: []model.FolderApi{
 					{
 						Id:        1,
 						Title:     "title",
 						Timestamp: fixedTime,
 						UserId:    1,
-						Notes:     []model.Note{},
+						Notes:     []model.NoteApi{},
 					},
 				},
-				Notes: []model.Note{
+				Notes: []model.NoteApi{
 					{
 						Id:         1,
 						Title:      "title",
@@ -151,13 +151,13 @@ func TestConcreteNotebookService_GetUserNotebook(t *testing.T) {
 			},
 			args: 1,
 			want: model.Notebook{
-				Folders: []model.Folder{
+				Folders: []model.FolderApi{
 					{
 						Id:        1,
 						Title:     "title",
 						Timestamp: fixedTime,
 						UserId:    1,
-						Notes: []model.Note{
+						Notes: []model.NoteApi{
 							{
 								Id:         1,
 								Title:      "title",
@@ -170,7 +170,7 @@ func TestConcreteNotebookService_GetUserNotebook(t *testing.T) {
 						},
 					},
 				},
-				Notes: []model.Note{},
+				Notes: []model.NoteApi{},
 			},
 			wantErr: false,
 		},

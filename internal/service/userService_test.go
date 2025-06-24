@@ -1,6 +1,7 @@
 package service
 
 import (
+	"Notes/internal/constants"
 	"Notes/internal/model"
 	mocks "Notes/internal/service/mock"
 	"encoding/json"
@@ -56,7 +57,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, "Имя не может быть пустым", nil),
 			},
 			wantErr: true,
@@ -73,7 +74,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, "Фамилия не может быть пустой", nil),
 			},
 			wantErr: true,
@@ -90,7 +91,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Логин слишком короткий. Пожалуйста, создайте логин длинной не меньше %d символов", model.MinLoginLength), nil),
 			},
 			wantErr: true,
@@ -107,7 +108,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Пароль слишком короткий. Пожалуйста, создайте пароль длиной не менее %d символов", model.MinPasswordLength), nil),
 			},
 			wantErr: true,
@@ -124,7 +125,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, "Пароль должен содержать букву верхнего регистра.", nil),
 			},
 			wantErr: true,
@@ -141,7 +142,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, "Пароль должен содержать букву нижнего регистра.", nil),
 			},
 			wantErr: true,
@@ -158,7 +159,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, "Пароль должен содержать число.", nil),
 			},
 			wantErr: true,
@@ -175,7 +176,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, "Пароль должен содержать спецсимволы.", nil),
 			},
 			wantErr: true,
@@ -202,7 +203,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeValidation, loginAlreadyUsedMessage, nil),
 			},
 			wantErr: true,
@@ -221,7 +222,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeInternal, "Ошибка при создании хэша", nil),
 			},
 			wantErr: true,
@@ -237,7 +238,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 					Surname:  "surname",
 					Login:    "login1234",
 					Password: "hashed_password",
-				}).Return(fakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
+				}).Return(constants.FakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
 			},
 			args: userTestArgs{
 				userId:   0,
@@ -247,7 +248,7 @@ func TestConcreteUserService_CreateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil),
 			},
 			wantErr: true,
@@ -477,7 +478,7 @@ func TestConcreteUserService_UpdateUser(t *testing.T) {
 				surname:  "surname",
 			},
 			want: userTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeInternal, "Ошибка при создании хэша", nil),
 			},
 			wantErr: true,
@@ -519,7 +520,7 @@ func TestConcreteUserService_UpdateUser(t *testing.T) {
 					Surname:  "surname",
 					Login:    "new_login",
 					Password: "New_hashed_password123$",
-				}).Return(fakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
+				}).Return(constants.FakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
 			},
 			args: userTestArgs{
 				userId:   1,

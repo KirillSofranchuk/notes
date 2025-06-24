@@ -1,6 +1,7 @@
 package service
 
 import (
+	"Notes/internal/constants"
 	"Notes/internal/model"
 	mocks "Notes/internal/service/mock"
 	"github.com/golang/mock/gomock"
@@ -57,7 +58,7 @@ func TestConcreteFolderService_CreateFolder(t *testing.T) {
 			mock: func() {
 				repo.EXPECT().GetFoldersByUserId(1).Return([]*model.Folder{
 					{
-						Id:     0,
+						Id:     1,
 						Title:  "duplicate title",
 						UserId: 1,
 						Notes:  nil,
@@ -70,7 +71,7 @@ func TestConcreteFolderService_CreateFolder(t *testing.T) {
 			},
 			want: folderTestExpect{
 				id:    -1,
-				error: model.NewApplicationError(model.ErrorTypeValidation, folderTitleIsNotFree, nil),
+				error: model.NewApplicationError(model.ErrorTypeValidation, constants.FolderTitleIsNotFree, nil),
 			},
 			wantErr: true,
 		},
@@ -90,14 +91,14 @@ func TestConcreteFolderService_CreateFolder(t *testing.T) {
 					Title:  "original title",
 					UserId: 1,
 					Notes:  nil,
-				}).Return(fakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
+				}).Return(constants.FakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
 			},
 			args: folderTestArgs{
 				userId: 1,
 				title:  "original title",
 			},
 			want: folderTestExpect{
-				id:    fakeId,
+				id:    constants.FakeId,
 				error: model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil),
 			},
 			wantErr: true,
@@ -198,7 +199,7 @@ func TestConcreteFolderService_UpdateFolder(t *testing.T) {
 				title:  "duplicate title",
 			},
 			want: folderTestExpect{
-				error: model.NewApplicationError(model.ErrorTypeValidation, folderTitleIsNotFree, nil),
+				error: model.NewApplicationError(model.ErrorTypeValidation, constants.FolderTitleIsNotFree, nil),
 			},
 			wantErr: true,
 		},
@@ -247,7 +248,7 @@ func TestConcreteFolderService_UpdateFolder(t *testing.T) {
 					Title:  "original title",
 					UserId: 1,
 					Notes:  nil,
-				}).Return(fakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
+				}).Return(constants.FakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
 			},
 			args: folderTestArgs{
 				userId:   1,

@@ -25,14 +25,17 @@ func (n *ConcreteNotebookService) GetUserNotebook(userId int) model.Notebook {
 	folders := n.repo.GetFoldersByUserId(userId)
 	notes := n.repo.GetNotesByUserId(userId)
 
+	mappedNotes := model.ToNotesApi(notes)
+	mappedFolders := model.ToFoldersApi(folders)
+
 	return model.Notebook{
-		Folders: n.getFoldersWithNotes(folders, notes),
-		Notes:   n.getNotesRelatedToFolder(notes, nil),
+		Folders: n.getFoldersWithNotes(mappedFolders, mappedNotes),
+		Notes:   n.getNotesRelatedToFolder(mappedNotes, nil),
 	}
 }
 
-func (n *ConcreteNotebookService) getFoldersWithNotes(folders []*model.Folder, notes []*model.Note) []model.Folder {
-	userFolders := make([]model.Folder, 0)
+func (n *ConcreteNotebookService) getFoldersWithNotes(folders []*model.FolderApi, notes []*model.NoteApi) []model.FolderApi {
+	userFolders := make([]model.FolderApi, 0)
 
 	for _, folder := range folders {
 		folderId := folder.Id
@@ -44,8 +47,8 @@ func (n *ConcreteNotebookService) getFoldersWithNotes(folders []*model.Folder, n
 	return userFolders
 }
 
-func (n *ConcreteNotebookService) getNotesRelatedToFolder(notes []*model.Note, folderId *int) []model.Note {
-	notesRelatedToFolder := make([]model.Note, 0)
+func (n *ConcreteNotebookService) getNotesRelatedToFolder(notes []*model.NoteApi, folderId *int) []model.NoteApi {
+	notesRelatedToFolder := make([]model.NoteApi, 0)
 
 	for _, note := range notes {
 		folderIdFromNote := note.FolderId

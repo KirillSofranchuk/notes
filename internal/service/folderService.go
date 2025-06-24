@@ -3,13 +3,9 @@ package service
 //go:generate mockgen -source=folderService.go -destination=mock/folderService.go -package=mock
 
 import (
+	"Notes/internal/constants"
 	"Notes/internal/model"
 	"Notes/internal/repository"
-)
-
-const (
-	folderTitleIsNotFree = "Папка с таким же именем уже добавлена"
-	fakeId               = -1
 )
 
 type AbstractFolderService interface {
@@ -32,17 +28,17 @@ func (f FolderService) CreateFolder(userId int, title string) (int, *model.Appli
 	folder, err := model.NewFolder(title, userId)
 
 	if err != nil {
-		return fakeId, err
+		return constants.FakeId, err
 	}
 
-	if !f.isTitleIsFree(folder.Title, userId) {
-		return fakeId, model.NewApplicationError(model.ErrorTypeValidation, folderTitleIsNotFree, nil)
+	if !f.isTitleIsFree(folder.Title, userId, 0) {
+		return constants.FakeId, model.NewApplicationError(model.ErrorTypeValidation, constants.FolderTitleIsNotFree, nil)
 	}
 
 	id, err := f.repo.SaveEntity(folder)
 
 	if err != nil {
-		return fakeId, err
+		return constants.FakeId, err
 	}
 
 	return id, nil
@@ -55,8 +51,8 @@ func (f FolderService) UpdateFolder(userId int, folderId int, title string) *mod
 		return err
 	}
 
-	if !f.isTitleIsFree(folder.Title, userId) {
-		return model.NewApplicationError(model.ErrorTypeValidation, folderTitleIsNotFree, nil)
+	if !f.isTitleIsFree(folder.Title, userId, folderId) {
+		return model.NewApplicationError(model.ErrorTypeValidation, constants.FolderTitleIsNotFree, nil)
 	}
 
 	folderDb, err := f.repo.GetFolderById(folderId, userId)
@@ -84,11 +80,10 @@ func (f FolderService) DeleteFolder(userId int, folderId int) *model.Application
 	return f.repo.DeleteEntity(folderDb)
 }
 
-func (f FolderService) isTitleIsFree(title string, id int) bool {
-	folders := f.repo.GetFoldersByUserId(id)
-
+func (f FolderService) isTitleIsFree(title string, userId int, folderId int) bool {
+	folders := f.repo.GetFoldersByUserId(userId)
 	for _, folder := range folders {
-		if folder.Title == title {
+		if folder.Title == title && folder.Id != folderId {
 			return false
 		}
 	}

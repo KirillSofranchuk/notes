@@ -1,10 +1,12 @@
 package repository
 
 import (
+	"Notes/internal/constants"
 	"Notes/internal/model"
 	"Notes/internal/utils"
 	"errors"
 	"gorm.io/gorm"
+	"log"
 )
 
 var (
@@ -22,7 +24,7 @@ func NewPostgresRepository(db *gorm.DB) AbstractRepository {
 
 func (p *PostgresRepository) SaveEntity(entity model.BusinessEntity) (int, *model.ApplicationError) {
 	entity.SetTimestamp()
-
+	log.Println(entity)
 	if entity.GetId() == 0 {
 		return p.createEntity(entity)
 	} else {
@@ -41,13 +43,31 @@ func (p *PostgresRepository) createEntity(entity model.BusinessEntity) (int, *mo
 }
 
 func (p *PostgresRepository) updateEntity(entity model.BusinessEntity) (int, *model.ApplicationError) {
-	result := p.db.Save(&entity)
+	switch e := entity.(type) {
+	case *model.Note:
+		result := p.db.Save(e)
+		if result.Error != nil {
+			return -1, DataBaseError
+		}
+		return e.Id, nil
 
-	if result.Error != nil {
-		return -1, DataBaseError
+	case *model.User:
+		result := p.db.Save(e)
+		if result.Error != nil {
+			return -1, DataBaseError
+		}
+		return e.Id, nil
+
+	case *model.Folder:
+		result := p.db.Save(e)
+		if result.Error != nil {
+			return -1, DataBaseError
+		}
+		return e.Id, nil
+
+	default:
+		return constants.FakeId, DataBaseError
 	}
-
-	return entity.GetId(), nil
 }
 
 func (p *PostgresRepository) DeleteEntity(entity model.BusinessEntity) *model.ApplicationError {
@@ -58,39 +78,6 @@ func (p *PostgresRepository) DeleteEntity(entity model.BusinessEntity) *model.Ap
 	}
 
 	return nil
-}
-
-func (p *PostgresRepository) GetUsers() []*model.User {
-	var users []*model.User
-	result := p.db.Find(&users)
-
-	if result.Error != nil {
-		return make([]*model.User, 0)
-	}
-
-	return users
-}
-
-func (p *PostgresRepository) GetFolders() []*model.Folder {
-	var folders []*model.Folder
-	result := p.db.Find(&folders)
-
-	if result.Error != nil {
-		return make([]*model.Folder, 0)
-	}
-
-	return folders
-}
-
-func (p *PostgresRepository) GetNotes() []*model.Note {
-	var notes []*model.Note
-	result := p.db.Find(&notes)
-
-	if result.Error != nil {
-		return make([]*model.Note, 0)
-	}
-
-	return notes
 }
 
 func (p *PostgresRepository) GetUserById(id int) (*model.User, *model.ApplicationError) {
@@ -123,7 +110,7 @@ func (p *PostgresRepository) GetFolderById(id int, userId int) (*model.Folder, *
 
 func (p *PostgresRepository) GetNoteById(id int, userId int) (*model.Note, *model.ApplicationError) {
 	var note model.Note
-	result := p.db.Where("id = ? AND user_id = ?", id, userId).First(&note)
+	result := p.db.Table("notes").Where("id = ? AND user_id = ?", id, userId).First(&note)
 
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
@@ -132,30 +119,6 @@ func (p *PostgresRepository) GetNoteById(id int, userId int) (*model.Note, *mode
 		return nil, DataBaseError
 	}
 	return &note, nil
-}
-
-func (p *PostgresRepository) GetUsersCount() int {
-	var count int64
-	if err := p.db.Model(&model.User{}).Count(&count).Error; err != nil {
-		return -1
-	}
-	return int(count)
-}
-
-func (p *PostgresRepository) GetNotesCount() int {
-	var count int64
-	if err := p.db.Model(&model.Note{}).Count(&count).Error; err != nil {
-		return -1
-	}
-	return int(count)
-}
-
-func (p *PostgresRepository) GetFoldersCount() int {
-	var count int64
-	if err := p.db.Model(&model.Folder{}).Count(&count).Error; err != nil {
-		return -1
-	}
-	return int(count)
 }
 
 func (p *PostgresRepository) GetUser(login, password string) (*model.User, *model.ApplicationError) {
@@ -185,7 +148,6 @@ func (p *PostgresRepository) GetUser(login, password string) (*model.User, *mode
 func (p *PostgresRepository) GetFoldersByUserId(userId int) []*model.Folder {
 	var folders []*model.Folder
 	result := p.db.Where("user_id = ?", userId).Find(&folders)
-
 	if result.Error != nil {
 		return make([]*model.Folder, 0)
 	}
@@ -200,4 +162,15 @@ func (p *PostgresRepository) GetNotesByUserId(userId int) []*model.Note {
 		return make([]*model.Note, 0)
 	}
 	return notes
+}
+
+func (p *PostgresRepository) GetUsers() []*model.User {
+	var users []*model.User
+	result := p.db.Find(&users)
+
+	if result.Error != nil {
+		return make([]*model.User, 0)
+	}
+
+	return users
 }

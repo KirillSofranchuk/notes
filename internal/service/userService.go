@@ -3,6 +3,7 @@ package service
 //go:generate mockgen -source=userService.go -destination=mock/userService.go -package=mock
 
 import (
+	"Notes/internal/constants"
 	"Notes/internal/model"
 	"Notes/internal/repository"
 )
@@ -32,16 +33,16 @@ func (u UserService) CreateUser(login, password, name, surname string) (int, *mo
 	newUser, err := model.NewUser(name, surname, login, password)
 
 	if err != nil {
-		return -1, err
+		return constants.FakeId, err
 	}
 
 	if !u.isLoginFree(newUser.Login, newUser.GetId()) {
-		return fakeId, model.NewApplicationError(model.ErrorTypeValidation, loginAlreadyUsedMessage, nil)
+		return constants.FakeId, model.NewApplicationError(model.ErrorTypeValidation, loginAlreadyUsedMessage, nil)
 	}
 
 	passwordHash, errHash := u.hashService.GetHash(newUser.Password)
 	if errHash != nil {
-		return fakeId, errHash
+		return constants.FakeId, errHash
 	}
 
 	newUser.Password = passwordHash
@@ -49,7 +50,7 @@ func (u UserService) CreateUser(login, password, name, surname string) (int, *mo
 	id, err := u.repo.SaveEntity(newUser)
 
 	if err != nil {
-		return fakeId, err
+		return constants.FakeId, err
 	}
 
 	return id, nil

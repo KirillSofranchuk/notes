@@ -1,11 +1,13 @@
 package service
 
 import (
+	"Notes/internal/constants"
 	"Notes/internal/model"
 	mocks "Notes/internal/service/mock"
 	"encoding/json"
 	"fmt"
 	"github.com/golang/mock/gomock"
+	"github.com/lib/pq"
 	"testing"
 	"time"
 )
@@ -23,7 +25,7 @@ type noteTestArgs struct {
 type noteTestExpect struct {
 	id    int
 	error *model.ApplicationError
-	notes []*model.Note
+	notes []*model.NoteApi
 }
 
 func initNoteServiceTest(t *testing.T) (AbstractNoteService, *mocks.MockAbstractRepository) {
@@ -86,7 +88,7 @@ func TestConcreteNoteService_CreateNote(t *testing.T) {
 			mock: func() {},
 			want: noteTestExpect{
 				id:    -1,
-				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Длина заметки не может превышать %d символов", model.MaxContentLength), nil),
+				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Длина заметки не может превышать %d символов", constants.MaxContentLength), nil),
 			},
 			wantErr: true,
 		},
@@ -101,7 +103,7 @@ func TestConcreteNoteService_CreateNote(t *testing.T) {
 			mock: func() {},
 			want: noteTestExpect{
 				id:    -1,
-				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Нельзя добавить больше, чем %d тегов к заметке.", model.MaxTagsCount), nil),
+				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Нельзя добавить больше, чем %d тегов к заметке.", constants.MaxTagsCount), nil),
 			},
 			wantErr: true,
 		},
@@ -134,10 +136,11 @@ func TestConcreteNoteService_CreateNote(t *testing.T) {
 		{
 			name: "note saved",
 			args: noteTestArgs{
-				userId:  1,
-				title:   "title",
-				content: "content",
-				tags:    nil,
+				userId:   1,
+				title:    "title",
+				content:  "content",
+				tags:     nil,
+				folderId: nil,
 			},
 			mock: func() {
 				repo.EXPECT().GetNotesByUserId(1).Return([]*model.Note{
@@ -155,6 +158,9 @@ func TestConcreteNoteService_CreateNote(t *testing.T) {
 					Content:    "content",
 					UserId:     1,
 					IsFavorite: false,
+					Tags:       make(pq.StringArray, 0),
+					Timestamp:  time.Time{},
+					FolderId:   nil,
 				}).Return(2, nil)
 			},
 			want: noteTestExpect{
@@ -232,7 +238,7 @@ func TestConcreteNoteService_UpdateNote(t *testing.T) {
 			},
 			mock: func() {},
 			want: noteTestExpect{
-				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Длина заметки не может превышать %d символов", model.MaxContentLength), nil),
+				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Длина заметки не может превышать %d символов", constants.MaxContentLength), nil),
 			},
 			wantErr: true,
 		},
@@ -246,7 +252,7 @@ func TestConcreteNoteService_UpdateNote(t *testing.T) {
 			},
 			mock: func() {},
 			want: noteTestExpect{
-				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Нельзя добавить больше, чем %d тегов к заметке.", model.MaxTagsCount), nil),
+				error: model.NewApplicationError(model.ErrorTypeValidation, fmt.Sprintf("Нельзя добавить больше, чем %d тегов к заметке.", constants.MaxTagsCount), nil),
 			},
 			wantErr: true,
 		},
@@ -305,11 +311,12 @@ func TestConcreteNoteService_UpdateNote(t *testing.T) {
 		{
 			name: "note updated",
 			args: noteTestArgs{
-				userId:  1,
-				title:   "title",
-				content: "content",
-				tags:    nil,
-				noteId:  2,
+				userId:   1,
+				title:    "title",
+				content:  "content",
+				tags:     nil,
+				noteId:   2,
+				folderId: nil,
 			},
 			mock: func() {
 				repo.EXPECT().GetNotesByUserId(1).Return([]*model.Note{
@@ -336,10 +343,12 @@ func TestConcreteNoteService_UpdateNote(t *testing.T) {
 					IsFavorite: false,
 				}, nil)
 				repo.EXPECT().SaveEntity(&model.Note{
-					Id:      2,
-					Title:   "title",
-					Content: "content",
-					UserId:  1,
+					Id:       2,
+					Title:    "title",
+					Content:  "content",
+					UserId:   1,
+					FolderId: nil,
+					Tags:     make(pq.StringArray, 0),
 				}).Return(2, nil)
 			},
 			want: noteTestExpect{
@@ -517,7 +526,7 @@ func TestConcreteNoteService_MoveToFolder(t *testing.T) {
 					UserId:     1,
 					IsFavorite: false,
 					FolderId:   &testFolderId,
-				}).Return(fakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
+				}).Return(constants.FakeId, model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil))
 			},
 			want: noteTestExpect{
 				error: model.NewApplicationError(model.ErrorTypeDatabase, " внутрення ошибка БД", nil),
@@ -776,7 +785,7 @@ func TestConcreteNoteService_FindNotesByQueryPhrase(t *testing.T) {
 				query:  "query",
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{},
+				notes: []*model.NoteApi{},
 			},
 			wantErr: false,
 		},
@@ -803,7 +812,7 @@ func TestConcreteNoteService_FindNotesByQueryPhrase(t *testing.T) {
 				query:  "",
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{
+				notes: []*model.NoteApi{
 					{
 						Id:      1,
 						Title:   "title1",
@@ -843,7 +852,7 @@ func TestConcreteNoteService_FindNotesByQueryPhrase(t *testing.T) {
 				query:  "query",
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{},
+				notes: []*model.NoteApi{},
 			},
 			wantErr: false,
 		},
@@ -870,7 +879,7 @@ func TestConcreteNoteService_FindNotesByQueryPhrase(t *testing.T) {
 				query:  "first",
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{
+				notes: []*model.NoteApi{
 					{
 						Id:      1,
 						Title:   "first title",
@@ -904,7 +913,7 @@ func TestConcreteNoteService_FindNotesByQueryPhrase(t *testing.T) {
 				query:  "first",
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{
+				notes: []*model.NoteApi{
 					{
 						Id:      1,
 						Title:   "title1",
@@ -924,7 +933,7 @@ func TestConcreteNoteService_FindNotesByQueryPhrase(t *testing.T) {
 						Title:   "title1",
 						Content: "content1",
 						UserId:  1,
-						Tags: &[]string{
+						Tags: []string{
 							"first", "second",
 						},
 					},
@@ -941,13 +950,13 @@ func TestConcreteNoteService_FindNotesByQueryPhrase(t *testing.T) {
 				query:  "first",
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{
+				notes: []*model.NoteApi{
 					{
 						Id:      1,
 						Title:   "title1",
 						Content: "content1",
 						UserId:  1,
-						Tags: &[]string{
+						Tags: []string{
 							"first", "second",
 						},
 					},
@@ -992,7 +1001,7 @@ func TestConcreteNoteService_GetFavoriteNotes(t *testing.T) {
 				userId: 1,
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{},
+				notes: []*model.NoteApi{},
 			},
 			wantErr: false,
 		},
@@ -1018,7 +1027,7 @@ func TestConcreteNoteService_GetFavoriteNotes(t *testing.T) {
 				userId: 1,
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{},
+				notes: []*model.NoteApi{},
 			},
 			wantErr: false,
 		},
@@ -1046,7 +1055,7 @@ func TestConcreteNoteService_GetFavoriteNotes(t *testing.T) {
 				query:  "query",
 			},
 			want: noteTestExpect{
-				notes: []*model.Note{
+				notes: []*model.NoteApi{
 					{
 						Id:         1,
 						Title:      "title1",

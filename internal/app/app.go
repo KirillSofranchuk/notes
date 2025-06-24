@@ -56,11 +56,6 @@ func Run() {
 	noteHandler := handler.NewNoteHandler(noteService)
 	userHandler := handler.NewUserHandler(userService)
 
-	//logger.InitLogger(postgresRepo)
-	ctx, cancelLogger := context.WithCancel(context.Background())
-	defer cancelLogger()
-	//logger.LogEntitiesAsync(postgresRepo, ctx)
-
 	r := gin.Default()
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -75,19 +70,19 @@ func Run() {
 		protected.DELETE("/user", userHandler.DeleteUser)
 
 		protected.POST("/folder", folderHandler.CreateFolder)
-		protected.PUT("/folder{id}", folderHandler.UpdateFolder)
-		protected.DELETE("/folder{id}", folderHandler.DeleteFolder)
+		protected.PUT("/folder/:id", folderHandler.UpdateFolder)
+		protected.DELETE("/folder/:id", folderHandler.DeleteFolder)
 
 		protected.GET("/notebook", notebookHandler.GetNotebook)
 
 		protected.POST("/notes", noteHandler.CreateNote)
-		protected.PUT("/notes{id}", noteHandler.UpdateNote)
-		protected.DELETE("/notes{id}", noteHandler.DeleteNote)
+		protected.PUT("/notes/:id", noteHandler.UpdateNote)
+		protected.DELETE("/notes/:id", noteHandler.DeleteNote)
 		protected.GET("/notes/favorites", noteHandler.GetFavoriteNotes)
 		protected.GET("/notes/search", noteHandler.FindNotes)
-		protected.PUT("/notes/{id}/move", noteHandler.MoveNote)
-		protected.PUT("/notes/{id}/favorites", noteHandler.AddToFavorites)
-		protected.DELETE("/notes/{id}/favorites", noteHandler.DeleteFromFavorites)
+		protected.PUT("/notes/:id/move", noteHandler.MoveNote)
+		protected.PUT("/notes/:id/favorites", noteHandler.AddToFavorites)
+		protected.DELETE("/notes/:id/favorites", noteHandler.DeleteFromFavorites)
 	}
 
 	r.POST("/api/auth/login", authHandler.Login)

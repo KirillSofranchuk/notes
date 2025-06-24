@@ -1,22 +1,33 @@
 package model
 
 import (
+	"Notes/internal/constants"
 	"fmt"
+	"github.com/lib/pq"
 	"time"
 )
-
-const MaxContentLength = 200
-const MaxTagsCount = 3
 
 type Note struct {
 	Id         int
 	Title      string
 	Content    string
-	UserId     int `json:"-"`
+	UserId     int
 	IsFavorite bool
 	Timestamp  time.Time
-	Tags       *[]string
-	FolderId   *int `json:"-"`
+	Tags       pq.StringArray `gorm:"type:text[]"`
+	FolderId   *int
+}
+
+func (n *Note) SetId(id int) {
+	n.Id = id
+}
+
+func (n *Note) GetId() int {
+	return n.Id
+}
+
+func (n *Note) SetTimestamp() {
+	n.Timestamp = time.Now()
 }
 
 func NewNote(title string, content string, userId int, tags *[]string) (*Note, *ApplicationError) {
@@ -32,30 +43,8 @@ func NewNote(title string, content string, userId int, tags *[]string) (*Note, *
 		Content:    content,
 		UserId:     userId,
 		IsFavorite: false,
-		Tags:       tags,
+		Tags:       getTags(tags),
 	}, nil
-}
-
-func (n *Note) GetInfo() string {
-	return fmt.Sprintf("Id: %d \n"+
-		"Title: %s \n"+
-		"Content: %s \n"+
-		"UserId: %d \n"+
-		"IsFavorite: %v \n"+
-		"TimeStamp: %s \n"+
-		"Tags: %v", n.Id, n.Title, n.Content, n.UserId, n.IsFavorite, n.Timestamp.Format(time.RFC1123), n.Tags)
-}
-
-func (n *Note) SetId(id int) {
-	n.Id = id
-}
-
-func (n *Note) GetId() int {
-	return n.Id
-}
-
-func (n *Note) SetTimestamp() {
-	n.Timestamp = time.Now()
 }
 
 func validateNote(title string, content string, tags *[]string) *ApplicationError {
@@ -92,8 +81,8 @@ func validateContent(content string) *ApplicationError {
 		return NewApplicationError(ErrorTypeValidation, "Заметка не может быть пустой", nil)
 	}
 
-	if len(content) > MaxContentLength {
-		message := fmt.Sprintf("Длина заметки не может превышать %d символов", MaxContentLength)
+	if len(content) > constants.MaxContentLength {
+		message := fmt.Sprintf("Длина заметки не может превышать %d символов", constants.MaxContentLength)
 		return NewApplicationError(ErrorTypeValidation, message, nil)
 	}
 
@@ -105,10 +94,18 @@ func validateTags(tags *[]string) *ApplicationError {
 		return nil
 	}
 
-	if len(*tags) > MaxTagsCount {
-		message := fmt.Sprintf("Нельзя добавить больше, чем %d тегов к заметке.", MaxTagsCount)
+	if len(*tags) > constants.MaxTagsCount {
+		message := fmt.Sprintf("Нельзя добавить больше, чем %d тегов к заметке.", constants.MaxTagsCount)
 		return NewApplicationError(ErrorTypeValidation, message, nil)
 	}
 
 	return nil
+}
+
+func getTags(tags *[]string) []string {
+	if tags == nil {
+		return make([]string, 0)
+	}
+
+	return *tags
 }

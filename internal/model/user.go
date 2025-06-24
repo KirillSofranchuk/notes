@@ -33,14 +33,6 @@ func NewUser(name string, surname string, login string, password string) (*User,
 	}, nil
 }
 
-func (u *User) GetInfo() string {
-	return fmt.Sprintf("Id: %d \n"+
-		"Name: %s \n"+
-		"Surname: %s \n"+
-		"Login: %s \n"+
-		"Password: %s", u.Id, u.Name, u.Surname, u.Login, u.Password)
-}
-
 func (u *User) SetId(id int) {
 	u.Id = id
 }
