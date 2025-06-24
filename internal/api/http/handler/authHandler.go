@@ -9,18 +9,18 @@ import (
 )
 
 type AuthHandler struct {
-	a service.AbstractAuthService
+	authService service.AbstractAuthService
 }
 
 // AuthReq represents authentication request structure
 // @Description User authentication credentials
 type AuthReq struct {
-	Login    string `json:"Login" example:"user123" binding:"required"`
-	Password string `json:"Password" example:"securePassword123" binding:"required"`
+	Login    string `json:"Login" example:"user123456" binding:"required"`
+	Password string `json:"Password" example:"securePassword123$" binding:"required"`
 }
 
 func NewAuthHandler(service service.AbstractAuthService) *AuthHandler {
-	return &AuthHandler{a: service}
+	return &AuthHandler{authService: service}
 }
 
 // Login godoc
@@ -43,7 +43,7 @@ func (a *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	token, err := a.a.AuthUser(req.Login, req.Password)
+	token, err := a.authService.AuthUser(req.Login, req.Password)
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)

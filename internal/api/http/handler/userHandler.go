@@ -9,14 +9,14 @@ import (
 )
 
 type UserHandler struct {
-	service service.AbstractUserService
+	userService service.AbstractUserService
 }
 
 // UserReq represents user request structure
 // @Description User creation/update request
 type UserReq struct {
-	Login    string `json:"Login" example:"user123" binding:"required"`
-	Password string `json:"Password" example:"securePassword123" binding:"required"`
+	Login    string `json:"Login" example:"user123456" binding:"required"`
+	Password string `json:"Password" example:"securePassword123$" binding:"required"`
 	Name     string `json:"Name" example:"John"`
 	Surname  string `json:"Surname" example:"Doe"`
 }
@@ -25,13 +25,13 @@ type UserReq struct {
 // @Description User response data
 type UserRsp struct {
 	Id      int    `json:"Id" example:"1"`
-	Login   string `json:"Login" example:"user123"`
+	Login   string `json:"Login" example:"user123456"`
 	Name    string `json:"Name" example:"John"`
 	Surname string `json:"Surname" example:"Doe"`
 }
 
 func NewUserHandler(s service.AbstractUserService) *UserHandler {
-	return &UserHandler{service: s}
+	return &UserHandler{userService: s}
 }
 
 // CreateUser godoc
@@ -54,7 +54,7 @@ func (u UserHandler) CreateUser(c *gin.Context) {
 		return
 	}
 
-	id, err := u.service.CreateUser(req.Login, req.Password, req.Name, req.Surname)
+	id, err := u.userService.CreateUser(req.Login, req.Password, req.Name, req.Surname)
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
@@ -83,7 +83,7 @@ func (u UserHandler) CreateUser(c *gin.Context) {
 func (u UserHandler) GetUser(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
 
-	user, err := u.service.GetUser(userId)
+	user, err := u.userService.GetUser(userId)
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
@@ -125,7 +125,7 @@ func (u UserHandler) UpdateUser(c *gin.Context) {
 	}
 	userId := c.MustGet("UserId").(int)
 
-	errUpdate := u.service.UpdateUser(userId, req.Login, req.Password, req.Name, req.Surname)
+	errUpdate := u.userService.UpdateUser(userId, req.Login, req.Password, req.Name, req.Surname)
 
 	if errUpdate != nil {
 		apiError := model.GetAppropriateApiError(errUpdate)
@@ -150,7 +150,7 @@ func (u UserHandler) UpdateUser(c *gin.Context) {
 func (u UserHandler) DeleteUser(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
 
-	err := u.service.DeleteUser(userId)
+	err := u.userService.DeleteUser(userId)
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)

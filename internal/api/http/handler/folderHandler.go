@@ -10,11 +10,11 @@ import (
 )
 
 type FolderHandler struct {
-	service service.AbstractFolderService
+	folderService service.AbstractFolderService
 }
 
-func NewFolderHandler(s service.AbstractFolderService) FolderHandler {
-	return FolderHandler{service: s}
+func NewFolderHandler(s service.AbstractFolderService) *FolderHandler {
+	return &FolderHandler{folderService: s}
 }
 
 type FolderReq struct {
@@ -44,7 +44,7 @@ func (f *FolderHandler) CreateFolder(c *gin.Context) {
 
 	userId := c.MustGet("UserId").(int)
 
-	id, err := f.service.CreateFolder(userId, req.Title)
+	id, err := f.folderService.CreateFolder(userId, req.Title)
 
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
@@ -90,7 +90,7 @@ func (f *FolderHandler) UpdateFolder(c *gin.Context) {
 		return
 	}
 
-	errUpdate := f.service.UpdateFolder(userId, idInt, req.Title)
+	errUpdate := f.folderService.UpdateFolder(userId, idInt, req.Title)
 
 	if errUpdate != nil {
 		apiError := model.GetAppropriateApiError(errUpdate)
@@ -125,7 +125,7 @@ func (f *FolderHandler) DeleteFolder(c *gin.Context) {
 		return
 	}
 
-	errDelete := f.service.DeleteFolder(userId, idInt)
+	errDelete := f.folderService.DeleteFolder(userId, idInt)
 
 	if errDelete != nil {
 		apiError := model.GetAppropriateApiError(errDelete)

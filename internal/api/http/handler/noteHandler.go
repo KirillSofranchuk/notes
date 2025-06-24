@@ -10,7 +10,7 @@ import (
 )
 
 type NoteHandler struct {
-	service service.AbstractNoteService
+	noteService service.AbstractNoteService
 }
 
 type NoteRq struct {
@@ -23,8 +23,8 @@ type MoveNoteRq struct {
 	FolderId *int `json:"FolderId" example:"1" binding:"required"`
 }
 
-func NewNoteHandler(s service.AbstractNoteService) NoteHandler {
-	return NoteHandler{service: s}
+func NewNoteHandler(s service.AbstractNoteService) *NoteHandler {
+	return &NoteHandler{noteService: s}
 }
 
 // CreateNote godoc
@@ -49,7 +49,7 @@ func (n *NoteHandler) CreateNote(c *gin.Context) {
 
 	userId := c.MustGet("UserId").(int)
 
-	id, err := n.service.CreateNote(userId, req.Title, req.Content, req.Tags)
+	id, err := n.noteService.CreateNote(userId, req.Title, req.Content, req.Tags)
 	if err != nil {
 		apiError := model.GetAppropriateApiError(err)
 		errorResponseFromApiError(c, apiError)
@@ -91,7 +91,7 @@ func (n *NoteHandler) UpdateNote(c *gin.Context) {
 		return
 	}
 
-	errUpdate := n.service.UpdateNote(userId, idInt, req.Title, req.Content, req.Tags)
+	errUpdate := n.noteService.UpdateNote(userId, idInt, req.Title, req.Content, req.Tags)
 
 	if errUpdate != nil {
 		apiError := model.GetAppropriateApiError(errUpdate)
@@ -125,7 +125,7 @@ func (n *NoteHandler) DeleteNote(c *gin.Context) {
 		return
 	}
 
-	errDelete := n.service.DeleteNote(userId, idInt)
+	errDelete := n.noteService.DeleteNote(userId, idInt)
 
 	if errDelete != nil {
 		apiError := model.GetAppropriateApiError(errDelete)
@@ -148,7 +148,7 @@ func (n *NoteHandler) DeleteNote(c *gin.Context) {
 func (n *NoteHandler) GetFavoriteNotes(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
 
-	favorites := n.service.GetFavoriteNotes(userId)
+	favorites := n.noteService.GetFavoriteNotes(userId)
 
 	c.JSON(http.StatusOK, gin.H{
 		"notes": favorites,
@@ -176,7 +176,7 @@ func (n *NoteHandler) FindNotes(c *gin.Context) {
 		return
 	}
 
-	notes := n.service.FindNotesByQueryPhrase(userId, queryPhrase)
+	notes := n.noteService.FindNotesByQueryPhrase(userId, queryPhrase)
 	c.JSON(http.StatusOK, gin.H{
 		"notes": notes,
 	})
@@ -213,7 +213,7 @@ func (n *NoteHandler) MoveNote(c *gin.Context) {
 		return
 	}
 
-	errMove := n.service.MoveToFolder(userId, idInt, req.FolderId)
+	errMove := n.noteService.MoveToFolder(userId, idInt, req.FolderId)
 
 	if errMove != nil {
 		apiError := model.GetAppropriateApiError(errMove)
@@ -246,7 +246,7 @@ func (n *NoteHandler) AddToFavorites(c *gin.Context) {
 		return
 	}
 
-	errMove := n.service.AddToFavorites(userId, idInt)
+	errMove := n.noteService.AddToFavorites(userId, idInt)
 
 	if errMove != nil {
 		apiError := model.GetAppropriateApiError(errMove)
@@ -279,7 +279,7 @@ func (n *NoteHandler) DeleteFromFavorites(c *gin.Context) {
 		return
 	}
 
-	errDelete := n.service.DeleteFromFavorites(userId, idInt)
+	errDelete := n.noteService.DeleteFromFavorites(userId, idInt)
 
 	if errDelete != nil {
 		apiError := model.GetAppropriateApiError(errDelete)

@@ -7,11 +7,11 @@ import (
 )
 
 type NotebookHandler struct {
-	service service.AbstractNotebookService
+	notebookService service.AbstractNotebookService
 }
 
-func NewNotebookHandler(s service.AbstractNotebookService) NotebookHandler {
-	return NotebookHandler{service: s}
+func NewNotebookHandler(s service.AbstractNotebookService) *NotebookHandler {
+	return &NotebookHandler{notebookService: s}
 }
 
 // GetNotebook godoc
@@ -26,7 +26,7 @@ func NewNotebookHandler(s service.AbstractNotebookService) NotebookHandler {
 func (n *NotebookHandler) GetNotebook(c *gin.Context) {
 	userId := c.MustGet("UserId").(int)
 
-	notebook := n.service.GetUserNotebook(userId)
+	notebook := n.notebookService.GetUserNotebook(userId)
 
 	c.JSON(http.StatusOK, gin.H{
 		"notebook": notebook,
